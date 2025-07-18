@@ -32,227 +32,243 @@
 \begin{document}
 
 \include{./Title}
-
 \clearpage
 
 \rule{\textwidth}{1pt}
 \textbf{Problem 1}\\
-1. Determine the transfer function $G(s)=\dfrac{V_o(s)}{V_i(s)}$ of the network below\\
+Determine the transfer function $G(s)=\dfrac{V_o(s)}{V_i(s)}$ of the network below\\
+
 \begin{center}
-	\begin{circuitikz}
-		\draw
-		(0,0)
-		to[V, l=$V_i(t)$,invert] ++(0,2)
-		to[short] ++(0.5,0)
-		to[R, l=$1\Omega$] ++(1.5,0)
-		to[short] ++(.5,0) coordinate (Qpos)
-		to[short] ++(1,0) coordinate (LMpos)
-		(LMpos)
-	
-		to[R, l_=$1\Omega$ ,v^=$~~V_o(t)$] ++(0,-2)
-		to[short] (0,0)
-		(Qpos)++(0,-2)
-		to[L, l=$1H$] ++(0,2)	
-		;
-	\end{circuitikz}
-	\end{center}
+\begin{circuitikz}
+    \draw
+    (0,0)
+    to[V, l=$V_i(t)$,invert] ++(0,2)
+    to[short] ++(0.5,0)
+    to[R, l=$1\Omega$] ++(1.5,0)
+    to[short] ++(.5,0) coordinate (Qpos)
+    to[short] ++(1,0) coordinate (LMpos)
+    (LMpos)
+    to[R, l_=$1\Omega$ ,v^=$~~V_o(t)$] ++(0,-2)
+    to[short] (0,0)
+    (Qpos)++(0,-2)
+    to[L, l=$1H$] ++(0,2)	
+    ;
+\end{circuitikz}
+\end{center}
+
 \rule{\textwidth}{1pt}
 \vspace{12pt}
 \textbf{Given:} As per diagram\\
+\vspace{12pt}
 \textit{\textbf{Solution:}}\\
-\begin{minipage}{.5\textwidth}
-Using mesh analysis:\\
 
-@Loop 1:\\
+Using mesh analysis:
 
-$V_i-R_1i_1-L\dfrac{di_1}{dt}+L\dfrac{di_2}{dt}=0$\\
+\textbf{@Loop 1:}
+\[
+V_i - R_1i_1 - L\dfrac{di_1}{dt} + L\dfrac{di_2}{dt} = 0
+\]
+\[
+V_i(s) - R_1I_1(s) - LsI_1(s) + LsI_2(s) = 0
+\]
+\[
+V_i(s) = (R_1 + Ls)I_1(s) - LsI_2(s) \quad \textbf{(equation 1)}
+\]
 
-$V_i(s)-R_1I_1(s)-LsI_1(s)+LsI_2(s)=0$\\
+\textbf{@Loop 2:}
+\[
+-R_2i_2 - L\dfrac{di_2}{dt} + L\dfrac{di_1}{dt} = 0
+\]
+\[
+R_2I_2(s) - LsI_2(s) - LsI_1(s) = 0
+\]
+\[
+(R_2 + Ls)I_2(s) = LsI_1(s)
+\]
+\[
+I_1(s) = \left(\dfrac{R_2 + Ls}{Ls}\right)I_2(s) \quad \textbf{(equation 2)}
+\]
 
-$V_i(s)=(R_1+Ls)I_1(s)-LsI_2(s) \Rightarrow equation ~ 1 $\\
+Substitute equation 2 into equation 1:
+\[
+V_i(s) = (R_1 + Ls)\left(\dfrac{R_2 + Ls}{Ls}\right)I_2(s) - LsI_2(s)
+\]
 
-@Loop 2:\\
-	
-$-R_2i_2-L\dfrac{di_2}{dt}+L\dfrac{di_1}{dt}=0$\\
+Now since $V_o = R_2i_2 \Rightarrow V_o(s) = R_2I_2(s)$, and so:
+\[
+I_2(s) = \dfrac{V_o(s)}{R_2}
+\]
 
-$R_2I_2(s)-LsI_2(s)-LsI_1(s)=0$\\
+Substitute into the expression:
+\[
+V_i(s) = (R_1 + Ls)\left(\dfrac{R_2 + Ls}{Ls}\right)\dfrac{V_o(s)}{R_2} - Ls\dfrac{V_o(s)}{R_2}
+\]
 
-$(R_1+Ls)I_2(s)-LsI_1(s)=0 $\\
+Substituting component values:
+\[
+V_i(s) = (s + 1)\left(\dfrac{s + 1}{s}\right)V_o(s) - sV_o(s)
+\]
+\[
+V_i(s) = \left[\dfrac{s^2 + 2s + 1}{s} - s\right]V_o(s)
+\]
+\[
+V_i(s) = \left[\dfrac{s^2 + 2s + 1 - s^2}{s}\right]V_o(s) = \dfrac{2s + 1}{s}V_o(s)
+\]
+\[
+\dfrac{V_i(s)}{V_o(s)} = \dfrac{2s + 1}{s}
+\]
 
-$LsI_1(s)=(R_1+Ls)I_2(s)$\\
+\begin{center}
+\boxed{ \dfrac{V_o(s)}{V_i(s)} = \dfrac{s}{2s + 1} }
+\end{center}
 
-$I_1(s)=\left(\dfrac{R_2+Ls}{Ls}\right)I_2(s)\Rightarrow equation ~ 2$\\
-
-$Substituting ~~ equation ~~ 2 ~~ to~~  1$\\
-
-$V_i(s)=(R_1+Ls)\left(\dfrac{R_2+Ls}{Ls}\right)I_2(s)-LsI_2(s)$\\
-
-$V_o=R_2i_2 \rightarrow V_o(s)=R_2I_2(s)$\\
-
-$I_2(s)=\dfrac{V_o(s)}{R_2}$\\
-
-$V_i(s)=(R_1+Ls)\left(\dfrac{R_2+Ls}{Ls}\right)\dfrac{V_o(s)}{R_2}-Ls\dfrac{V_o(s)}{R_2}$\\
-
-\end{minipage}
-\begin{minipage}{.5\textwidth}
-Substituting the values\\	
-
-	$V_i(s)=(S+1)\left(\dfrac{S+1}{S}\right)V_o(s)-SV_o(s)$\\
-
-	$V_i(s)=\left[\dfrac{S^2+2S+1}{S}-S\right]V_o(s)$\\
-
-	$V_i(s)=\left[\dfrac{S^2+2S+1}{S}-\dfrac{S^2}{S}\right]V_o(s)$\\
-
-	$V_i(s)=\dfrac{2S+1}{S}V_o(s)$\\
-
-	$\dfrac{V_i(s)}{V_o(s)}=\dfrac{2S+1}{S}$\\
-
-	\boxed{ \begin{aligned} & \dfrac{V_o(s)}{V_i(s)}=\dfrac{S}{2S+1} \ \end{aligned} }\\
-	
-	\end{minipage}
-
-	\clearpage
+\clearpage
 \rule{\textwidth}{1pt}
 \textbf{Problem 2}\\
-1. Determine the transfer function $G(s)=\dfrac{V_o(s)}{V_i(s)}$ of the network below\\
+\vspace{12pt}
+Determine the transfer function $G(s)=\dfrac{V_o(s)}{V_i(s)}$ of the network below\\
 \begin{center}
-	\begin{circuitikz}
-		\draw
-		(0,0)
-		to[V, l=$V_i(t)$,invert] ++(0,2)
-		to[short] ++(0.5,0)
-		to[R, l=$2\Omega$] ++(1.5,0)
-		to[short] ++(.5,0) coordinate (Qpos)
-		to[L, l^=$2H$] ++(2.5,0) coordinate (LMpos)
-		(LMpos)
-	
-		to[R, l_=$1\Omega$ ,v^=$~~V_o(t)$] ++(0,-2)
-		to[short] (0,0)
-		(Qpos)++(0,-2)
-		to[L, l=$1H$] ++(0,2)	
-		;
-	\end{circuitikz}
-	\end{center}
+    \begin{circuitikz}
+        \draw
+        (0,0)
+        to[V, l=$V_i(t)$,invert] ++(0,2)
+        to[short] ++(0.5,0)
+        to[R, l=$2\Omega$] ++(1.5,0)
+        to[short] ++(.5,0) coordinate (Qpos)
+        to[L, l^=$2H$] ++(2.5,0) coordinate (LMpos)
+        (LMpos)
+        to[R, l_=$1\Omega$ ,v^=$~~V_o(t)$] ++(0,-2)
+        to[short] (0,0)
+        (Qpos)++(0,-2)
+        to[L, l=$1H$] ++(0,2);
+    \end{circuitikz}
+\end{center}
+
+\rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
+\subsection*{Mesh Analysis}
+Using mesh analysis with two loops:
+
+\subsection*{Loop 1 Equation}
+\begin{align*}
+V_i - R_1i_1 - L_1\frac{di_1}{dt} + L_2\frac{di_2}{dt} &= 0 \\
+V_i(s) - 2I_1(s) - 2sI_1(s) + sI_2(s) &= 0 \\
+V_i(s) &= (2s + 2)I_1(s) - sI_2(s) \quad \textbf{(Equation 1)}
+\end{align*}
+
+\subsection*{Loop 2 Equation}
+\begin{align*}
+L_1\frac{di_1}{dt} - L_1\frac{di_2}{dt} - L_2\frac{di_2}{dt} - R_2i_2 &= 0 \\
+2sI_1(s) - 2sI_2(s) - sI_2(s) - I_2(s) &= 0 \\
+2sI_1(s) &= (3s + 1)I_2(s) \\
+I_1(s) &= \left(\frac{3s + 1}{2s}\right)I_2(s) \quad \textbf{(Equation 2)}
+\end{align*}
+
+\subsection*{Output Voltage}
+\begin{align*}
+V_o &= R_2i_2 \\
+V_o(s) &= 1 \cdot I_2(s) \\
+I_2(s) &= V_o(s)
+\end{align*}
+
+\subsection*{Substitution and Solution}
+Substitute Equation 2 into Equation 1:
+\begin{align*}
+V_i(s) &= (2s + 2)\left(\frac{3s + 1}{2s}\right)V_o(s) - sV_o(s) \\
+&= \left(\frac{6s^2 + 8s + 2}{2s} - s\right)V_o(s) \\
+&= \left(\frac{6s^2 + 8s + 2 - 2s^2}{2s}\right)V_o(s) \\
+&= \left(\frac{4s^2 + 8s + 2}{2s}\right)V_o(s)
+\end{align*}
+
+\begin{center}
+\boxed{ \dfrac{V_o(s)}{V_i(s)} = \dfrac{2s}{4s^2 + 8s + 2} = \dfrac{s}{2s^2 + 4s + 1} }
+\end{center}
+
+\clearpage
+\rule{\textwidth}{1pt}
+\textbf{Problem 3}\\
+Determine the transfer function $G(s)=\dfrac{V_o(s)}{V_i(s)}$ of the network below\\
+
+\begin{center}
+\begin{circuitikz}
+	\draw
+	(0,0)
+	to[V, l=$V_i(t)$,invert] ++(0,2)
+	to[short] ++(0.5,0)
+	to[L, l=$2H$] ++(1.5,0)
+	to[short] ++(.5,0) coordinate (Qpos)
+	to[R, l=$2\Omega$] ++(2.5,0) coordinate (LMpos)
+	(LMpos)
+	to[C, l_=$2F$, v^=$~~V_o(t)$] ++(0,-2)
+	to[short] (0,0)
+	(Qpos)++(0,-2)
+	to[C, l=$2C$] ++(0,2);
+\end{circuitikz}
+\end{center}
+
 \rule{\textwidth}{1pt}
 \vspace{12pt}
 \textbf{Given:} As per diagram\\
 \textit{\textbf{Solution:}}\\
-\begin{minipage}{.5\textwidth}
-Using mesh analysis:\\
-
-@Loop 1:\\
-
-$V_i-R_1i_1-L\dfrac{di_1}{dt}+L\dfrac{di_2}{dt}=0$\\
-
-$V_i(s)-2I_1(s)-sI_1(s)+sI_2(s)=0$\\
-
-$V_i(s)=(s+2)I_1(s)-sI_2(s) \Rightarrow equation ~ 1 $\\
-
-@Loop 2:\\
-	
-$L\dfrac{di_1}{dt}-L\dfrac{di_2}{dt}-L\dfrac{di_2}{dt}-R_2i_2=0$\\
-
-$sI_1(s)-sI_2(s)-2sI_2(s)1I_2(s)=0$\\
-
-$sI_1(s)=(3s+1)I_2(s) $\\
-
-$I_1(s)=\left(\dfrac{3s+1}{s}\right)I_2(s)\Rightarrow equation ~ 2$\\
-
-
-$V_o=R_2i_2 \rightarrow V_o(s)=1I_2(s)$\\
-
-$I_2(s)=\dfrac{V_o(s)}{1}$\\
-
-\end{minipage}
-\begin{minipage}{.5\textwidth}
-	Substituting equation 2 to 1\\	
-	
-		$V_i(s)=(s+2)\left(\dfrac{3s+1}{s}\right)I_2(s)-sI_2(s)$\\
-
-		$V_i(s)=(s+2)\left(\dfrac{3s+1}{s}\right)\dfrac{V_o(s)}{1}-s\dfrac{V_o(s)}{1}$\\
-
-		$V_i(s)=(s+2)\left(\dfrac{3s+1}{s}\right)V_o(s)-sV_o(s)$\\
-
-		$V_i(s)=\left(\dfrac{3s^2+7s+2}{s}-s\right)V_o(s)$\\
-		
-		$V_i(s)=\left(\dfrac{3s^2+7s+2}{s}-\dfrac{s^2}{s}\right)V_o(s)$\\
-
-		$V_i(s)=\dfrac{2s^2+7s+2}{s}V_o(s)$\\
-	
-		\boxed{ \begin{aligned} & \dfrac{V_o(s)}{V_i(s)}=\dfrac{s}{2s^2+7s+2} \ \end{aligned} }\\
-		
-		\end{minipage}
-
-	\clearpage
-\rule{\textwidth}{1pt}
-\textbf{Problem 3}\\
-1. Determine the transfer function $G(s)=\dfrac{V_o(s)}{V_i(s)}$ of the network below\\
-\begin{center}
-	\begin{circuitikz}
-		\draw
-		(0,0)
-		to[V, l=$V_i(t)$,invert] ++(0,2)
-		to[short] ++(0.5,0)
-		to[L, l=$2H$] ++(1.5,0)
-		to[short] ++(.5,0) coordinate (Qpos)
-		to[R, l=$2\Omega$] ++(2.5,0) coordinate (LMpos)
-		(LMpos)
-	
-		to[C, l_=$2F$ ,v^=$~~V_o(t)$] ++(0,-2)
-		to[short] (0,0)
-		(Qpos)++(0,-2)
-		to[C, l=$2C$] ++(0,2)	
-		;
-	\end{circuitikz}
-	\end{center}
-\rule{\textwidth}{1pt}
 \vspace{12pt}
-\textbf{Given:} As per diagram\\
-\textit{\textbf{Solution:}}\\		
-\begin{minipage}{.5\textwidth}
-	Using mesh analysis:\\
-	
-	@Loop 1:\\
-	
-	$V_i-2\dfrac{di_1}{dt}-\dfrac{1}{2}\int i_1~~dt+\dfrac{1}{2}\int i_2~~dt=0$\\ 
-	
-	$V_i(s)-2sI_1(s)-\dfrac{1}{2s}I_1(s)+\dfrac{1}{2s}I_2(s)=0$\\
-	
-	$V_i(s)=(2s+\dfrac{1}{2s})I_1(s)-\dfrac{1}{2s}I_2(s) \Rightarrow equation ~ 1 $\\
-	
-	@Loop 2:\\
-		
-	$\dfrac{1}{2}\int i_1~~dt-\dfrac{1}{2}\int i_2~~dt-2i_2-\dfrac{1}{2}\int i_2~~dt=0$\\
-	
-	$\dfrac{1}{2s}I_1(s)-\dfrac{1}{2s}I_2(s)-2I_2(s)-\dfrac{1}{2s}I_2(s)=0$\\
-	
-	$\dfrac{1}{2s}I_1(s)=\dfrac{1}{2s}+2 I_2(s)=0 $\\
-	
-	$I_1(s)=(4s+1)I_2(s)\Rightarrow equation ~ 2$\\
-	
-	
-	$i_2=2\dfrac{dV_o}{dt}$\\
-	
-	$I_2(s)=2sV_o(s)$\\
-\end{minipage}
-\begin{minipage}{.5\textwidth}
-	Substituting equation 2 to 1\\	
-	
-		$V_i(s)=(2s+\dfrac{1}{2s})(4s+1)I_2(s)-\dfrac{1}{2s}I_2(s)$\\
 
-		$V_i(s)=(2s+\dfrac{1}{2s})(4s+1)2sV_o(s)-\dfrac{1}{2s}2sV_o(s)$\\
+Using mesh analysis:
 
-		$V_i(s)=\left(\dfrac{(4s^2+1)(4s+1)}{2s}\right)2sV_o(s)-\dfrac{1}{2s}2sV_o(s)$\\
+\textbf{@Loop 1:}
+\[
+V_i - 2\dfrac{di_1}{dt} - \dfrac{1}{2} \int i_1\,dt + \dfrac{1}{2} \int i_2\,dt = 0
+\]
+\[
+V_i(s) - 2sI_1(s) - \dfrac{1}{2s}I_1(s) + \dfrac{1}{2s}I_2(s) = 0
+\]
+\[
+V_i(s) = \left(2s + \dfrac{1}{2s} \right) I_1(s) - \dfrac{1}{2s} I_2(s) \quad \textbf{(equation 1)}
+\]
 
-		$V_i(s)=\left(\dfrac{(16s^3+4s^2+4s+1)}{2s}-\dfrac{1}{2s}\right)2sV_o(s)$\\
+\textbf{@Loop 2:}
+\[
+\dfrac{1}{2} \int i_1\,dt - \dfrac{1}{2} \int i_2\,dt - 2i_2 - \dfrac{1}{2} \int i_2\,dt = 0
+\]
+\[
+\dfrac{1}{2s} I_1(s) - \dfrac{1}{2s} I_2(s) - 2I_2(s) - \dfrac{1}{2s} I_2(s) = 0
+\]
+\[
+\dfrac{1}{2s} I_1(s) = \left( \dfrac{1}{s} + 2 \right) I_2(s)
+\]
+\[
+I_1(s) = (4s + 1) I_2(s) \quad \textbf{(equation 2)}
+\]
 
-		$V_i(s)=\left(8s^2+2s+2\right)2sV_o(s)$\\
+From the capacitor on the output:
+\[
+i_2 = 2\dfrac{dV_o}{dt} \Rightarrow I_2(s) = 2s V_o(s)
+\]
 
-		$V_i(s)=2s\left(8s^2+2s+2\right)V_o(s)$\\
-	
-		\boxed{ \begin{aligned} & \dfrac{V_o(s)}{V_i(s)}=\dfrac{1}{2s\left(8s^2+2s+2\right)} \ \end{aligned} }\\
-		
-		\end{minipage}
+Substitute equation 2 into equation 1:
+\[
+V_i(s) = \left( 2s + \dfrac{1}{2s} \right)(4s + 1) I_2(s) - \dfrac{1}{2s} I_2(s)
+\]
+\[
+V_i(s) = \left( \dfrac{16s^3 + 4s^2 + 4s + 1}{2s} - \dfrac{1}{2s} \right) 2sV_o(s)
+\]
+\[
+V_i(s) = \left(8s^2 + 2s + 2\right) 2sV_o(s)
+\]
+\[
+V_i(s) = 2s(8s^2 + 2s + 2)V_o(s)
+\]
+
+\begin{center}
+\boxed{ \dfrac{V_o(s)}{V_i(s)} = \dfrac{1}{2s(8s^2 + 2s + 2)} }
+\end{center}
+
 
 \clearpage
 \rule{\textwidth}{1pt}
@@ -274,28 +290,33 @@ Determine the transfer function $G(s)=\dfrac{V_o(s)}{V_i(s)}$ of the network bel
 \vspace{12pt}
 \textbf{Given:} As per diagram\\
 \textit{\textbf{Solution:}}\\
-\begin{minipage}{0.5\textwidth}
-Using voltage divider in s-domain:
-\[ Z_R = 1\Omega \]
-\[ Z_L = sL = s \]
-\[ Z_C = \frac{1}{sC} = \frac{1}{s} \]
+\vspace{12pt}
+
+Using voltage divider in the s-domain:
+\[
+Z_R = 1\Omega,\quad Z_L = sL = s,\quad Z_C = \frac{1}{sC} = \frac{1}{s}
+\]
+
 Total impedance:
-\[ Z_{total} = Z_R + Z_L + Z_C \]
-\[ = 1 + s + \frac{1}{s} \]
-\end{minipage}
-\begin{minipage}{0.5\textwidth}
+\[
+Z_{total} = Z_R + Z_L + Z_C = 1 + s + \frac{1}{s}
+\]
+
 Transfer function:
-\[ \frac{V_o(s)}{V_i(s)} = \frac{Z_C}{Z_{total}} \]
-\[ = \frac{\frac{1}{s}}{1 + s + \frac{1}{s}} \]
-\[ = \frac{1}{s + s^2 + 1} \]
+\[
+\frac{V_o(s)}{V_i(s)} = \frac{Z_C}{Z_{total}} = \frac{\frac{1}{s}}{1 + s + \frac{1}{s}} = \frac{1}{s + s^2 + 1}
+\]
+
+\begin{center}
 \boxed{ \dfrac{V_o(s)}{V_i(s)} = \dfrac{1}{s^2 + s + 1} }
-\end{minipage}
+\end{center}
+
 
 
 % Problem 5
 \clearpage
 \noindent\rule{\textwidth}{1pt}
-\textbf{Problem 5: Transfer Function of an RLC Network} \\
+\textbf{Problem 5} \\
 \textit{Find the transfer function \( \frac{V_o(s)}{V_i(s)} \) for the following circuit:}
 
 \begin{center}
@@ -309,9 +330,11 @@ Transfer function:
 \end{circuitikz}
 \end{center}
 
-\noindent\rule{\textwidth}{1pt}
+\rule{\textwidth}{1pt}
+\vspace{12pt}
 \textbf{Given:} As per diagram\\
-\textbf{Solution:}
+\textit{\textbf{Solution:}}\\
+\vspace{12pt}
 
 \begin{enumerate}
     \item \textbf{Impedance Calculation:}
@@ -331,12 +354,14 @@ Transfer function:
 \end{enumerate}
 
 \vspace{10pt}
+\begin{center}
 \boxed{ \dfrac{V_o(s)}{V_i(s)} = \dfrac{2}{s^2 + 2s + 2} }
+\end{center}
 
 % Problem 6
 \clearpage
 \noindent\rule{\textwidth}{1pt}
-\textbf{Problem 6: Transfer Function of a Parallel RC Network} \\
+\textbf{Problem 6} \\
 \textit{Analyze the parallel RC network to find \( \frac{V_o(s)}{I_i(s)} \):}
 
 \begin{center}
@@ -351,9 +376,11 @@ Transfer function:
 \end{circuitikz}
 \end{center}
 
-\noindent\rule{\textwidth}{1pt}
+\rule{\textwidth}{1pt}
+\vspace{12pt}
 \textbf{Given:} As per diagram\\
-\textbf{Solution:}
+\textit{\textbf{Solution:}}\\
+\vspace{12pt}
 
 \begin{enumerate}
     \item \textbf{Admittance Calculation:}
@@ -378,12 +405,16 @@ Transfer function:
 \end{enumerate}
 
 \vspace{10pt}
+
+\begin{center}
 \boxed{ \dfrac{V_o(s)}{I_i(s)} = \dfrac{1}{s + 1} }
+\end{center}
+
 
 % Problem 7
 \clearpage
 \noindent\rule{\textwidth}{1pt}
-\textbf{Problem 7: Transfer Function of an RC Network} \\
+\textbf{Problem 7} \\
 \textit{Determine \( G(s) = \frac{V_o(s)}{V_i(s)} \) for the following RC circuit:}
 
 \begin{center}
@@ -422,9 +453,10 @@ Transfer function:
 \end{enumerate}
 
 \vspace{10pt}
+
+\begin{center}
 \boxed{G(s) = \dfrac{1}{0.001s + 1}}
-
-
+\end{center}
 % Problem 8
 \clearpage
 \noindent\rule{\textwidth}{1pt}
@@ -447,7 +479,7 @@ Find $G(s)=\dfrac{V_o(s)}{V_i(s)}$ for this RL network:
   \item Resistance: $R = 100\,\Omega$
 \end{itemize}
 
-\textbf{Step-by-Step Solution:}
+\textbf{Solution:}
 
 \begin{enumerate}
   \item The total impedance in the s-domain is:
@@ -489,7 +521,7 @@ Analyze this RLC bandpass filter:
   \item $C = 1\,\mu\text{F} = 1 \times 10^{-6}\,\text{F}$
 \end{itemize}
 
-\textbf{Step-by-Step Solution:}
+\textbf{Solution:}
 
 \begin{enumerate}
   \item Convert all components to s-domain impedances:
@@ -545,10 +577,7 @@ Analyze this RLC bandpass filter:
 \end{itemize}
 
 \textit{\textbf{Solution:}}
-
-This is a **simple resistive voltage divider**, where two resistors are in series, and the output voltage is taken across \( R_2 \). The Laplace domain doesn't change resistor behavior, so the analysis remains the same as in the time domain.
-
----
+\vspace{12pt}
 
 \textbf{Step 1: Voltage Divider Rule}
 
@@ -558,7 +587,7 @@ The voltage divider rule states:
 V_o(s) = V_i(s) \cdot \frac{R_2}{R_1 + R_2}
 \]
 
----
+
 
 \textbf{Step 2: Derive Transfer Function}
 
@@ -568,7 +597,7 @@ The transfer function is:
 G(s) = \frac{V_o(s)}{V_i(s)} = \frac{R_2}{R_1 + R_2}
 \]
 
----
+
 
 \textbf{Step 3: Substitute Values}
 
@@ -576,14 +605,11 @@ G(s) = \frac{V_o(s)}{V_i(s)} = \frac{R_2}{R_1 + R_2}
 G(s) = \frac{3000}{2000 + 3000} = \frac{3000}{5000} = \frac{3}{5}
 \]
 
----
+
 
 \[
 \boxed{G(s) = 0.6}
 \]
-
-\textit{This means the output voltage is 60\% of the input, due to the resistor ratio. This is a purely resistive (frequency-independent) voltage divider.}
-
 
 % Problem 11 
 \clearpage
@@ -602,21 +628,18 @@ G(s) = \frac{3000}{2000 + 3000} = \frac{3000}{5000} = \frac{3}{5}
 \end{center}
 \noindent\rule{\textwidth}{1pt}
 
-\textbf{Given:} Resistance $R = 1k\Omega$, Capacitance $C = 1\mu F$\\
-\textit{\textbf{Solution:}}
+\noindent\textbf{Given:} As per diagram
 
-This is a **parallel RC network**, where a resistor \( R \) and capacitor \( C \) are connected in parallel, and a current source \( I_i(t) \) is supplying current into the parallel branches.
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
 
----
+\vspace{12pt}
 
-\textbf{Step 1: Write the impedance of each element in the Laplace domain}
 
-- Resistor: \( Z_R = R \)
-- Capacitor: \( Z_C = \dfrac{1}{sC} \)
+\textbf{Write the impedance of each element in the Laplace domain}
 
----
-
-\textbf{Step 2: Find the equivalent impedance of the parallel combination}
+Resistor: \( Z_R = R \)
+Capacitor: \( Z_C = \dfrac{1}{sC} \)
 
 For two components in parallel, the total impedance is:
 
@@ -624,9 +647,8 @@ For two components in parallel, the total impedance is:
 Z_{eq} = \left( \frac{1}{R} + sC \right)^{-1}
 \]
 
----
 
-\textbf{Step 3: Use Ohm's Law in the s-domain}
+\textbf{ Use Ohm's Law in the s-domain}
 
 The voltage across both elements is the same and is given by:
 
@@ -640,31 +662,22 @@ Thus, the transfer function is:
 \frac{V(s)}{I_i(s)} = Z_{eq} = \frac{1}{\frac{1}{R} + sC}
 \]
 
----
 
-\textbf{Step 4: Substitute the given values}
+\textbf{Substitute the given values}
 
 \[
 \frac{V(s)}{I_i(s)} = \frac{1}{\frac{1}{1000} + s \cdot 1 \times 10^{-6}} = \frac{1}{0.001 + 0.000001s}
 = \frac{1}{0.001s + 1}
 \]
 
-Now multiply numerator and denominator by 1000 to express in a simplified form:
-
 \[
 \frac{V(s)}{I_i(s)} = \frac{1000}{0.001s + 1}
 \]
-
----
 
 \[
 \boxed{\frac{V(s)}{I_i(s)} = \dfrac{1000}{0.001s + 1}}
 \]
 
-\textit{This is the transfer function of the parallel RC network. It shows a low-pass filter behavior, where the capacitor shunts high frequencies, reducing the output voltage at high \( s \).}
-
-
-% Problem 12
 \clearpage
 \noindent\rule{\textwidth}{1pt}
 \textbf{Problem 12}\\
@@ -680,11 +693,88 @@ Now multiply numerator and denominator by 1000 to express in a simplified form:
 \end{center}
 \noindent\rule{\textwidth}{1pt}
 
-\textit{\textbf{Solution:}}
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
+
+\subsection*{ Circuit Analysis in Time Domain}
 \[
-\frac{I(s)}{V_i(s)} = \frac{1}{R + sL} =
-\boxed{\dfrac{1}{0.1s + 1000}}
+V_i(t) = V_R(t) + V_L(t)
 \]
+
+
+
+\subsection*{Formulating the Differential Equation}
+Substituting the component relations into KVL gives:
+
+\[
+V_i(t) = R \cdot i(t) + L \frac{di(t)}{dt}
+\]
+
+For our specific circuit:
+\begin{itemize}
+\item Resistance $R = 1k\Omega = 1000\Omega$
+\item Inductance $L = 100mH = 0.1H$
+\end{itemize}
+
+Thus:
+\[
+V_i(t) = 1000 \cdot i(t) + 0.1 \frac{di(t)}{dt}
+\]
+
+\subsection*{Laplace Transformation}
+Taking the Laplace transform of both sides (assuming zero initial conditions):
+
+\[
+\mathcal{L}\{V_i(t)\} = \mathcal{L}\{1000 \cdot i(t) + 0.1 \frac{di(t)}{dt}\}
+\]
+
+Using linearity property and derivative property of Laplace transforms:
+
+\[
+V_i(s) = 1000 I(s) + 0.1 [sI(s) - i(0^+)]
+\]
+
+Assuming initial current $i(0^+) = 0$:
+
+\[
+V_i(s) = 1000 I(s) + 0.1 s I(s)
+\]
+
+\subsection*{Solving for Transfer Function}
+Factor out $I(s)$:
+
+\[
+V_i(s) = (1000 + 0.1s) I(s)
+\]
+
+Now solve for the transfer function:
+
+\[
+\frac{I(s)}{V_i(s)} = \frac{1}{1000 + 0.1s}
+\]
+
+\subsection*{Final Form}
+We can rewrite the denominator for clarity:
+
+\[
+\frac{I(s)}{V_i(s)} = \frac{1}{0.1s + 1000}
+\]
+
+Or alternatively, multiplying numerator and denominator by 10:
+
+\[
+\frac{I(s)}{V_i(s)} = \frac{10}{s + 10000}
+\]
+
+\begin{center}
+\boxed{\dfrac{I(s)}{V_i(s)} = \dfrac{1}{0.1s + 1000}}
+\end{center}
+
 
 % Problem 13 - Extended Version with Explanation
 \clearpage
@@ -703,23 +793,20 @@ Now multiply numerator and denominator by 1000 to express in a simplified form:
                -- (0,0);
 \end{circuitikz}
 \end{center}
-\textbf{Given:}
-\begin{itemize}
-  \item Inductance \( L = 10\,\text{mH} = 0.01\,\text{H} \)
-  \item Capacitance \( C = 100\,\mu\text{F} = 100 \times 10^{-6}\,\text{F} \)
-\end{itemize}
 \noindent\rule{\textwidth}{1pt}
-\textit{\textbf{Solution:}}
 
----
+\noindent\textbf{Given:} As per diagram
 
-\textbf{Step 1: Convert to Laplace Domain}
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
 
-In the Laplace domain:
-- The inductor becomes \( \dfrac{1}{sL} \)
-- The capacitor becomes \( \dfrac{1}{sC} \) in impedance, but as admittance (conductance), it's \( sC \)
+\vspace{12pt}
 
-These two elements are in **parallel**, so their **equivalent admittance** is:
+
+\textbf{Convert to Laplace Domain}
+
+
+ Two elements are in parallel:
 
 \[
 Y(s) = \frac{1}{sL} + sC
@@ -731,17 +818,13 @@ Then the **impedance** is:
 Z(s) = \frac{1}{Y(s)} = \frac{1}{\dfrac{1}{sL} + sC}
 \]
 
----
-
-\textbf{Step 2: Derive Transfer Function}
+\textbf{Derive Transfer Function}
 
 \[
 G(s) = \frac{V(s)}{I_i(s)} = Z(s) = \frac{1}{\dfrac{1}{sL} + sC}
 \]
 
----
-
-\textbf{Step 3: Plug in Component Values}
+\textbf{ Plug in Component Values}
 
 \[
 L = 0.01\,\text{H}, \quad C = 100 \times 10^{-6}\,\text{F}
@@ -754,7 +837,7 @@ G(s) = \frac{1}{\dfrac{1}{0.01s} + 100 \times 10^{-6} s}
 = \frac{1}{\dfrac{1}{0.01s} + 10^{-4}s}
 \]
 
-Multiply numerator and denominator by \( 0.01s \) to simplify:
+Multiply by \( 0.01s \) to simplify:
 
 \[
 G(s) = \frac{0.01s}{1 + 0.000001s^2}
@@ -780,31 +863,29 @@ G(s) = \frac{0.01s}{1 + 0.000001s^2}
 \end{center}
 
 \noindent\rule{\textwidth}{1pt}
-\textbf{Given:}
-\begin{itemize}
-  \item Resistance \( R = 100\,\Omega \)
-  \item Inductance \( L = 10\,\text{mH} = 0.01\,\text{H} \)
-  \item Capacitance \( C = 1\,\mu\text{F} = 1 \times 10^{-6}\,\text{F} \)
-\end{itemize}
-\textit{\textbf{Solution:}}
 
----
+\noindent\textbf{Given:} As per diagram
 
-\textbf{Step 1: Laplace Domain Representation}
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
 
-- The resistor stays as \( R \)
-- The inductor becomes \( sL \)
-- The capacitor becomes \( \dfrac{1}{sC} \)
+\vspace{12pt}
 
-The circuit is a **series RLC**, and we're asked to find the voltage across the capacitor. This is a **voltage divider**, where the output is across the capacitor:
+
+
+\textbf{Laplace Domain Representation}
+
+ The resistor stays as \( R \)
+ The inductor becomes \( sL \)
+ The capacitor becomes \( \dfrac{1}{sC} \)
 
 \[
 G(s) = \frac{V_C(s)}{V_i(s)} = \frac{\frac{1}{sC}}{R + sL + \frac{1}{sC}}
 \]
 
----
 
-\textbf{Step 2: Plug in Component Values}
+
+\textbf{Plug in Component Values}
 
 \[
 R = 100,\quad L = 0.01,\quad C = 1 \times 10^{-6}
@@ -816,7 +897,7 @@ Substitute:
 G(s) = \frac{1/(s \cdot 10^{-6})}{100 + 0.01s + 1/(s \cdot 10^{-6})}
 \]
 
-Multiply numerator and denominator by \( s \cdot 10^{-6} \) to eliminate fractions:
+Multiply by \( s \cdot 10^{-6} \):
 
 \[
 G(s) = \frac{1}{10^{-6}s^2 + 10^{-4}s + 1}
@@ -849,23 +930,19 @@ G(s) = \frac{1}{10^{-6}s^2 + 10^{-4}s + 1}
 \end{itemize}
 \textit{\textbf{Solution:}}
 
----
 
 \textbf{Step 1: Understand the System}
-
-This is a cascade of **two identical RC low-pass filters**. Each stage consists of a resistor in series followed by a capacitor to ground. The transfer function of a single RC low-pass filter is:
 
 \[
 H(s) = \frac{1}{RCs + 1}
 \]
 
-When two identical RC filters are connected in series, the total transfer function is the **product** of the individual transfer functions:
+Two identical RC filters are connected in series:
 
 \[
 G(s) = H(s) \cdot H(s) = \left( \frac{1}{RCs + 1} \right)^2
 \]
 
----
 
 \textbf{Step 2: Substitute Values}
 
@@ -905,10 +982,15 @@ G(s) = \left( \frac{1}{0.001s + 1} \right)^2 = \frac{1}{(0.001s + 1)^2}
                -- (0,0);
 \end{circuitikz}
 \end{center}
-
 \noindent\rule{\textwidth}{1pt}
-\textbf{Given:} \( R = 500\,\Omega \), \( C = 2\,\mu\text{F} \)\\
-\textit{\textbf{Solution:}}
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 This is a basic voltage divider in the Laplace domain:
 
@@ -942,10 +1024,15 @@ RC = 500 \times 2 \times 10^{-6} = 0.001
                -- (0,0);
 \end{circuitikz}
 \end{center}
-
 \noindent\rule{\textwidth}{1pt}
-\textbf{Given:} \( R = 2\,\text{k}\Omega \), \( L = 50\,\text{mH} \)\\
-\textit{\textbf{Solution:}}
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 This is a voltage across a parallel RL network:
 
@@ -985,10 +1072,16 @@ Multiply numerator and denominator by 20 to simplify:
                -- (0,0);
 \end{circuitikz}
 \end{center}
-
 \noindent\rule{\textwidth}{1pt}
-\textbf{Given:} \( R = 10\,\Omega \), \( L = 1\,\text{mH} \), \( C = 100\,\mu\text{F} \)\\
-\textit{\textbf{Solution:}}
+
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 This is a **band-pass filter**, and the voltage across the resistor is:
 
@@ -1041,10 +1134,14 @@ G(s) = \frac{0.001s}{10^{-8}s^2 + 0.001s + 1}
 \end{center}
 
 \noindent\rule{\textwidth}{1pt}
-\textbf{Given:} \( R = 1\,\text{k}\Omega \), \( C = 1\,\mu\text{F} \)\\
-\textit{\textbf{Solution:}}
 
-This is a **low-pass filter**, and the output is across the capacitor.
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 Impedance of the capacitor:
 \[
@@ -1091,10 +1188,14 @@ Final answer:
 \end{center}
 
 \noindent\rule{\textwidth}{1pt}
-\textbf{Given:} \( C = 1\,\mu\text{F} \), \( R = 10\,\text{k}\Omega \)\\
-\textit{\textbf{Solution:}}
 
-This is a **high-pass filter**, and the output is taken across the resistor.
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 The impedance of the capacitor is:
 \[
@@ -1133,8 +1234,13 @@ Final answer:
 \end{center}
 
 \noindent\rule{\textwidth}{1pt}
-\textbf{Given:} \( R = 1\,\text{k}\Omega \), \( C = 0.1\,\mu\text{F} \)\\
-\textit{\textbf{Solution:}}
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
 
 This is a **high-pass filter** where output is measured across the resistor.
 
@@ -1175,9 +1281,13 @@ Final answer:
 \end{center}
 
 \noindent\rule{\textwidth}{1pt}
-\textbf{Given:} \( R = 20\,\Omega \), \( L = 0.5\,\text{H} \)\\
-\textit{\textbf{Solution:}}
 
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
 This is a **high-pass filter**, and output is measured across the resistor.
 
 Impedance of the inductor:
@@ -1217,36 +1327,39 @@ Final answer:
 \end{center}
 
 \noindent\rule{\textwidth}{1pt}
-\textbf{Given:} \( R = 100\,\Omega \), \( L = 1\,\text{H} \)\\
-\textit{\textbf{Solution:}}
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
 
 For the parallel RL circuit:
 
-\begin{minipage}{0.5\textwidth}
 1. Total impedance:
 \[
-Z_{total}(s) = R \parallel sL = \frac{R \cdot sL}{R + sL}
+Z_{total}(s) = R \parallel sL = \frac{R \cdot sL}{R + sL} = \frac{100s}{100 + s}
 \]
 
 2. Current through inductor:
 \[
-I_L(s) = \frac{V_{in}(s)}{sL}
-\]
-\end{minipage}
-\begin{minipage}{0.5\textwidth}
-3. Transfer function:
-\[
-G(s) = \frac{I_L(s)}{V_{in}(s)} = \frac{1}{sL} \cdot \frac{R}{R + sL}
+I_L(s) = \frac{V_{in}(s)}{sL} = \frac{V_{in}(s)}{s}
 \]
 
-4. Substitute values:
+3. Transfer function derivation:
 \[
-G(s) = \frac{100}{100s + s^2}
+G(s) = \frac{I_L(s)}{V_{in}(s)} = \frac{1}{sL} \cdot \frac{R}{R + sL} = \frac{1}{s} \cdot \frac{100}{100 + s}
 \]
-\end{minipage}
 
+4. Final transfer function:
+\[
+G(s) = \frac{100}{s(100 + s)} = \frac{100}{s^2 + 100s}
+\]
+
+\begin{center}
 \boxed{G(s) = \dfrac{100}{s^2 + 100s}}
-
+\end{center}
 
 % Problem 24
 \clearpage
@@ -1271,30 +1384,36 @@ G(s) = \frac{100}{100s + s^2}
 \end{center}
 
 \noindent\rule{\textwidth}{1pt}
-\textbf{Given:} Two LC stages with \( L = 1\,\text{H} \), \( C = 1\,\mu\text{F} \)\\
-\textit{\textbf{Solution:}}
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
 
 Using mesh analysis for the 2-stage LC ladder:
 
-\begin{minipage}{0.5\textwidth}
-For Mesh 1:
+\subsection*{Mesh 1 Analysis}
 \[
 V_{in} = sL_1I_1 + \frac{1}{sC_1}(I_1-I_2)
 \]
+Substituting component values:
 \[
-= sI_1 + \frac{10^6}{s}(I_1-I_2)
+V_{in} = sI_1 + \frac{10^6}{s}(I_1-I_2)
 \]
 
-For Mesh 2:
+\subsection*{Mesh 2 Analysis}
 \[
 0 = \frac{1}{sC_1}(I_2-I_1) + sL_2I_2 + \frac{1}{sC_2}I_2
 \]
+Substituting component values:
 \[
-= \frac{10^6}{s}(I_2-I_1) + sI_2 + \frac{10^6}{s}I_2
+0 = \frac{10^6}{s}(I_2-I_1) + sI_2 + \frac{10^6}{s}I_2
 \]
-\end{minipage}
-\begin{minipage}{0.5\textwidth}
-Solving the equations:
+
+\subsection*{System of Equations}
+Rewriting in matrix form:
 \[
 V_{in} = \left(s + \frac{10^6}{s}\right)I_1 - \frac{10^6}{s}I_2
 \]
@@ -1302,13 +1421,13 @@ V_{in} = \left(s + \frac{10^6}{s}\right)I_1 - \frac{10^6}{s}I_2
 0 = -\frac{10^6}{s}I_1 + \left(s + \frac{2\times10^6}{s}\right)I_2
 \]
 
-Output voltage:
+\subsection*{Output Voltage}
 \[
 V_{out} = \frac{10^6}{s}I_2
 \]
-\end{minipage}
 
-The transfer function becomes:
+\subsection*{Transfer Function Derivation}
+Solving the system for the transfer function:
 \[
 G(s) = \frac{V_{out}(s)}{V_{in}(s)} = \frac{\left(\frac{10^6}{s}\right)^2}{\left(s + \frac{10^6}{s}\right)\left(s + \frac{2\times10^6}{s}\right) - \left(\frac{10^6}{s}\right)^2}
 \]
@@ -1318,7 +1437,10 @@ After simplification:
 G(s) = \frac{10^{12}}{s^4 + 3\times10^6 s^2 + 10^{12}}
 \]
 
+\begin{center}
 \boxed{G(s) = \dfrac{10^{12}}{s^4 + 3\times10^6 s^2 + 10^{12}}}
+\end{center}
+
 
 
 % Problem 25
@@ -1338,8 +1460,13 @@ G(s) = \frac{10^{12}}{s^4 + 3\times10^6 s^2 + 10^{12}}
 \end{center}
 
 \noindent\rule{\textwidth}{1pt}
-\textbf{Given:} Two capacitors in series: \( C_1 = 1\,\mu\text{F} \), \( C_2 = 2\,\mu\text{F} \)\\
-\textit{\textbf{Solution:}}
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
 
 In the \( s \)-domain, the impedance of a capacitor is:
 \[
@@ -1369,7 +1496,6 @@ C_1 = 1\,\mu\text{F}, \quad C_2 = 2\,\mu\text{F} \Rightarrow \frac{C_1}{C_1 + C_
 \clearpage
 
 \rule{\textwidth}{1pt}
-\textbf{Translational}\\
 \textbf{Problem 26}\\
 Find the transfer function $\dfrac{X(s)}{F(s)}$\\
 \begin{center}
@@ -1415,8 +1541,15 @@ Find the transfer function $\dfrac{X(s)}{F(s)}$\\
 	\end{tikzpicture}
 \end{center}
 \rule{\textwidth}{1pt}
+
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\	
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Equation of Motion:\\
 \begin{center}
 	$M\dfrac{d^2x(t)}{dt^2}+fv\dfrac{dx(t)}{dt}+Kx(t)=f(t)$\\
@@ -1500,8 +1633,15 @@ Find the transfer function $\dfrac{X_2(s)}{F(s)}$\\
 	\end{tikzpicture}
 \end{center}
 \rule{\textwidth}{1pt}
+
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Equation for $X_1(t)$:\\
 \begin{center}
 	$m_1x_1(t)=f(t)-k_1x_1(t)-b[x_1(t)-x_2(t)]$\\
@@ -1611,8 +1751,14 @@ Find the transfer function $\dfrac{X_2(s)}{F(s)}$\\
 	\end{center}
 
 	\rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Formulate the Equation of Motion\\
 \begin{center}
 	$mx_2(t)+cx_2(t)+kx_2(t)=f(t)$\\
@@ -1695,8 +1841,14 @@ Find the transfer function $G(s)=\dfrac{X_2(s)}{F(s)}$\\
 \end{center}
 
 	\rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Formulate the Equation of Motion\\
 \begin{center}
 	$mx_2(t)=f(t)-c_1x_2(t)-kx_2(t)-c_2x_2(t)$\\
@@ -1787,8 +1939,14 @@ Find the transfer function $G(s)=\dfrac{X_2(s)}{F(s)}$\\
 \end{center}
 
 	\rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Formulate the Equation of Motion\\
 \begin{center}
 	$mx_2(t)=f(t)-c_1x_2(t)-kx_2(t)-c_2x_2(t)$\\
@@ -1886,8 +2044,14 @@ Find the transfer function $G(s)=\dfrac{X_1(s)}{F(s)}$\\
 	
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Derive the Equations of Motion:\\[12pt]
 Equation of Motion for M1:\\
 \begin{center}
@@ -1996,8 +2160,14 @@ Find the transfer function $G(s)=\dfrac{X_2(s)}{F(s)}$\\
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Equation for Mass 1:\\[12pt]
 Using Newton's second law:\\
 \begin{center}
@@ -2114,8 +2284,14 @@ Find the transfer function $G(s)=\dfrac{X_2(s)}{F(s)}$ for the translational mec
 
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Equations of motion for each mass in the Laplace Domain:\\[12pt]
 For $M_1$:\\[12pt]
 \begin{center}
@@ -2272,8 +2448,14 @@ Find the transfer function $G(s)=\dfrac{X_2(s)}{F(s)}$ for the translational mec
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Define the Forces Acting on Each Mass:\\[12pt]
 For $M_1$:\\[12pt]
 \begin{center}
@@ -2402,8 +2584,14 @@ Find the transfer function $G(s)=\dfrac{X_2(s)}{F(s)}$ \\
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Define the Forces Acting on Each Mass:\\[12pt]
 For $M_1$:\\[12pt]
 \begin{center}
@@ -2531,8 +2719,14 @@ Find the transfer function $G(s)=\dfrac{X(s)}{F(s)}$ of the given mechanical sys
 
 
 	\rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Force Balance on M:\\
 \begin{center}
 	$M\ddot{x}(t)+(b_1+b_2)\dot{x}(t)+(k_1+k_2)x(t)=f(t)$\\
@@ -2620,8 +2814,14 @@ Find the transfer function, $\dfrac{X_1(s)}{F(s)}$ \\
 	\end{center}
 	
 	\rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Equation of Motion:\\[12pt]
 For $M_1$:\\
 \begin{center}
@@ -2724,8 +2924,14 @@ Find the transfer function, $\dfrac{X(s)}{F(s)}$ \\
 
 	
 	\rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Equation of Motion:\\
 \begin{center}
 	$M\dfrac{d^2x(t)}{dt^2}+fv\dfrac{dx(t)}{dt}+Kx(t)=f(t)$\\[12pt]
@@ -2803,8 +3009,14 @@ Find the transfer function $\dfrac{X_2(s)}{F(s)}$\\
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Equation for $X_1(t)$:\\
 \begin{center}
 	$F(t)-k_1x_1(t)-b[\dot{x}_1(t)-\dot{x}_2(t)]=0$\\[12pt]
@@ -2905,8 +3117,14 @@ Find the transfer function, $G(s)=\dfrac{X_1(s)}{F(s)}$ for the translational me
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Equation of Motion:\\
 \begin{center}
 	$M\ddot{x}(t)=F(t)-F_{s}-F_{d}$\\[12pt]
@@ -2971,8 +3189,14 @@ Find the transfer function, $G(s)=\dfrac{X_1(s)}{F(s)}$ for the translational me
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Equation of Motion:\\
 \begin{center}
 	$M\ddot{x}(t)=F(t)-F_{s}-F_{d}$\\[12pt]
@@ -3036,8 +3260,14 @@ For the translational mechanical system shown below, find the transfer function 
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Equation of Motion:\\
 \begin{center}
 	$M\ddot{x}_2(t)=F(t)-F_s-F_d$\\[12pt]
@@ -3110,8 +3340,14 @@ Find the transfer function $G(s)=\dfrac{X_2(s)}{F(s)}$\\
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 For Mass M:\\
 \begin{center}
 	$M\ddot{x}_2(t)=F(t)-F_{s1}-F_d-F_{s2}$\\[12pt]
@@ -3192,8 +3428,14 @@ Determine the transfer function $\dfrac{X(s)}{F(s)}$ of the system below\\
 	\end{tikzpicture}
 \end{center}
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\	
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Free Body Diagram:	
 \begin{center}
 	\begin{tikzpicture}[every node/.style={draw,outer sep=0pt,thick}]
@@ -3283,8 +3525,14 @@ Laplace Transform:\\
 				\end{tikzpicture}
 			\end{center}
 		\rule{\textwidth}{1pt}
-		\vspace{12pt}
-		\textit{\textbf{Solution:}}\\	
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 		FBD of $M$\\	
 		\begin{center}
 			\begin{tikzpicture}[every node/.style={draw,outer sep=0pt,thick}]
@@ -3313,15 +3561,17 @@ Laplace Transform:\\
 			\end{scope}
 			\end{tikzpicture}
 			\end{center}
-			$\sum F_x=0 \quad \rightarrow \quad \oplus$\\
+\begin{center}
+$\sum F_x=0 \quad \rightarrow \quad \oplus$\\[1ex]
 
-			$f(t)-m\frac{d^2x}{dt^2}-fv\frac{dx}{dt}-kx=0$\\
+$f(t)-m\frac{d^2x}{dt^2}-fv\frac{dx}{dt}-kx=0$\\[1ex]
 
-			$F(s)-2s^2X(s)-5sX(s)-4X(s)=0$\\
-			
-			$F(s)=(2s^2+5s+4)X(s)$\\
-			
-			\boxed{ \begin{aligned} & \dfrac{X(s)}{F(s)}=\dfrac{1}{2s^2+5s+4} \ \end{aligned} }\\
+$F(s)-2s^2X(s)-5sX(s)-4X(s)=0$\\[1ex]
+
+$F(s)=(2s^2+5s+4)X(s)$\\[1ex]
+
+\boxed{ \dfrac{X(s)}{F(s)} = \dfrac{1}{2s^2 + 5s + 4} }
+\end{center}
 
 			\clearpage
 			\rule{\textwidth}{1pt}
@@ -3373,8 +3623,14 @@ Laplace Transform:\\
 				\end{tikzpicture}
 			\end{center}
 		\rule{\textwidth}{1pt}
-		\vspace{12pt}
-		\textit{\textbf{Solution:}}\\	
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 		FBD of $M$\\	
 		\begin{center}
 			\begin{tikzpicture}[every node/.style={draw,outer sep=0pt,thick}]
@@ -3404,16 +3660,18 @@ Laplace Transform:\\
 			\end{scope}
 			\end{tikzpicture}
 			\end{center}
-			$\sum F_x=0 \quad \rightarrow \quad \oplus$\\
+\begin{center}
+$\sum F_x=0 \quad \rightarrow \quad \oplus$\\[1ex]
 
-			$f(t)-m\frac{d^2x}{dt^2}-fv\frac{dx}{dt}-(k_1+k_2)x=0$\\
+$f(t)-m\frac{d^2x}{dt^2}-fv\frac{dx}{dt}-(k_1+k_2)x=0$\\[1ex]
 
-			$F(s)-s^2X(s)-2sX(s)-(4+3)X(s)=0$\\
-			
-			$F(s)=(s^2+5s+7)X(s)$\\
-			
-			\boxed{ \begin{aligned} & \dfrac{X(s)}{F(s)}=\dfrac{1}{s^2+5s+7} \ \end{aligned} }\\
-	
+$F(s)-s^2X(s)-2sX(s)-(4+3)X(s)=0$\\[1ex]
+
+$F(s)=(s^2+5s+7)X(s)$\\[1ex]
+
+\boxed{ \dfrac{X(s)}{F(s)} = \dfrac{1}{s^2 + 5s + 7} }
+\end{center}
+
 			\clearpage
 			\rule{\textwidth}{1pt}
 			\textbf{Problem 47}\\
@@ -3465,8 +3723,14 @@ Laplace Transform:\\
 				\end{tikzpicture}
 			\end{center}
 		\rule{\textwidth}{1pt}
-		\vspace{12pt}
-		\textit{\textbf{Solution:}}\\	
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 		FBD of $M$ \\	
 		\begin{center}
 			\begin{tikzpicture}[every node/.style={draw,outer sep=0pt,thick}]
@@ -3495,15 +3759,18 @@ Laplace Transform:\\
 			\end{scope}
 			\end{tikzpicture}
 			\end{center}
-			$\sum F_x=0 \quad \rightarrow \quad \oplus$\\
+\begin{center}
+$\sum F_x=0 \quad \rightarrow \quad \oplus$\\[1ex]
 
-			$f(t)-m\frac{d^2x}{dt^2}-(fv_1+fv_2)\frac{dx}{dt}-(k_1+k_2)x=0$\\
+$f(t)-m\frac{d^2x}{dt^2}-(fv_1+fv_2)\frac{dx}{dt}-(k_1+k_2)x=0$\\[1ex]
 
-			$F(s)-5s^2X(s)-(4+2)sX(s)-(2+6)X(s)=0$\\
-			
-			$F(s)=(5s^2+6s+8)X(s)$\\
-			
-			\boxed{ \begin{aligned} & \dfrac{X(s)}{F(s)}=\dfrac{1}{5s^2+6s+8} \ \end{aligned} }\\
+$F(s)-5s^2X(s)-(4+2)sX(s)-(2+6)X(s)=0$\\[1ex]
+
+$F(s)=(5s^2 + 6s + 8)X(s)$\\[1ex]
+
+\boxed{ \dfrac{X(s)}{F(s)} = \dfrac{1}{5s^2 + 6s + 8} }
+\end{center}
+
 		
 	
 \clearpage
@@ -3554,8 +3821,14 @@ Determine the transfer function $\dfrac{X(s)}{F(s)}$ of the system below\\
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\	
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 FBD @ $4kg$ mass\\	
 \begin{center}
     \begin{tikzpicture}[every node/.style={draw,outer sep=0pt,thick}]
@@ -3586,15 +3859,18 @@ FBD @ $4kg$ mass\\
     \end{scope}
     \end{tikzpicture}
 \end{center}
-$\sum F_x=0 \quad \rightarrow \quad \oplus$\\
+\begin{center}
+$\sum F_x=0 \quad \rightarrow \quad \oplus$\\[1ex]
 
-$f(t)-4\frac{d^2x}{dt^2}-12\frac{dx}{dt}-10x=0$\\
+$f(t) - 4\frac{d^2x}{dt^2} - 12\frac{dx}{dt} - 10x = 0$\\[1ex]
 
-$F(s)-4s^2X(s)-12sX(s)-10X(s)=0$\\
+$F(s) - 4s^2X(s) - 12sX(s) - 10X(s) = 0$\\[1ex]
 
-$F(s)=(4s^2+12s+10)X(s)$\\
+$F(s) = (4s^2 + 12s + 10)X(s)$\\[1ex]
 
-\boxed{\dfrac{X(s)}{F(s)}=\dfrac{1}{4s^2+12s+10}}
+\boxed{ \dfrac{X(s)}{F(s)} = \dfrac{1}{4s^2 + 12s + 10} }
+\end{center}
+
 
 \clearpage
 \rule{\textwidth}{1pt}
@@ -3649,44 +3925,43 @@ $K_1 = 3 Nm ; K_2 = 6 Nm ;  fv = 6 Nm/s ;  M_1 = M_2 = 3 kg$\\
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 \begin{minipage}{.5\textwidth}
-    FBD of $M_1$\\
+\textbf{FBD of $M_1$}\\
 
-    $\sum F_x=0 \quad \rightarrow \quad \oplus$\\
+$\sum F_x=0 \quad \rightarrow \quad \oplus$\\[1ex]
+$f(t) + 6\frac{dx_2}{dt} - 3\frac{d^2x_1}{dt^2} - 6\frac{dx_1}{dt} - 3x_1 = 0$\\[1ex]
+$F(s) + 6sX_2(s) - 3s^2X_1(s) - 6sX_1(s) - 3X_1(s) = 0$\\[1ex]
+$F(s) = (3s^2 + 6s + 3)X_1(s) - 6sX_2(s) \quad \text{(eq. 1)}$
+\vspace{12pt}
+\textbf{FBD of $M_2$}\\
 
-    $f(t)+6\frac{dx_2}{dt}-3\frac{d^2x_1}{dt^2}-6\frac{dx_1}{dt}-3x_1=0$\\
-    
-    $F(s)+6sX_2(s)-3s^2X_1(s)-6sX_1(s)-3X_1(s)=0$\\
-    
-    $F(s)=(3s^2+6s+3)X_1(s)-6sX_2(s) \rightarrow eq.1 $\\
-\end{minipage}
-\begin{minipage}{.5\textwidth}
-    FBD of $M_2$\\
+$\sum F_x=0 \quad \rightarrow \quad \oplus$\\[1ex]
+$6\frac{dx_1}{dt} - 3\frac{d^2x_2}{dt^2} - 6\frac{dx_2}{dt} - 6x_2 = 0$\\[1ex]
+$6sX_1(s) - 3s^2X_2(s) - 6sX_2(s) - 6X_2(s) = 0$\\[1ex]
+$6sX_1(s) = (3s^2 + 6s + 6)X_2(s)$\\[1ex]
+$X_1(s) = \dfrac{3s^2 + 6s + 6}{6s} X_2(s) \quad \text{(eq. 2)}$
+\end{minipage}%
 
-    $\sum F_x=0 \quad \rightarrow \quad \oplus$\\
 
-    $6\frac{dx_1}{dt}-3\frac{d^2x_2}{dt^2}-6\frac{dx_2}{dt}-6x_2=0$\\
-    
-    $6sX_1(s)-3s^2X_2(s)-6sX_2(s)-6X_2(s)=0$\\
-    
-    $6sX_1(s)=(3s^2+6s+6)X_2(s)$\\
-    
-    $X_1(s)=\dfrac{3s^2+6s+6}{6s}X_2(s) \rightarrow eq.2$\\
-\end{minipage}
+\vspace{1.5ex}
 
-Substitute eq.2 to eq.1\\
+Substitute eq. 2 into eq. 1:\\[1ex]
+$F(s) = (3s^2 + 6s + 3) \left( \dfrac{3s^2 + 6s + 6}{6s} X_2(s) \right) - 6sX_2(s)$\\[1ex]
+$F(s) = X_2(s) \left( \dfrac{(3s^2 + 6s + 3)(3s^2 + 6s + 6)}{6s} - 6s \right)$\\[1ex]
+$F(s) = X_2(s) \left( \dfrac{9s^4 + 36s^3 + 63s^2 + 54s + 18 - 36s^2}{6s} \right)$\\[1ex]
+$\dfrac{F(s)}{X_2(s)} = \dfrac{9s^4 + 36s^3 + 27s^2 + 54s + 18}{6s}$
 
-$F(s)=(3s^2+6s+3)\left(\dfrac{3s^2+6s+6}{6s}X_2(s)\right)-6sX_2(s)$\\
-
-$F(s)=X_2(s)\left(\dfrac{9s^4+36s^3+63s^2+54s+18}{6s}-6s\right)$\\
-
-$F(s)=X_2(s)\left(\dfrac{9s^4+36s^3+63s^2+54s+18-36s^2}{6s}\right)$\\
-
-$\dfrac{F(s)}{X_2(s)}=\dfrac{9s^4+36s^3+27s^2+54s+18}{6s}$\\
-
-\boxed{\dfrac{X_2(s)}{F(s)}=\dfrac{6s}{9s^4+36s^3+27s^2+54s+18}}
+\begin{center}
+\boxed{ \dfrac{X_2(s)}{F(s)} = \dfrac{6s}{9s^4 + 36s^3 + 27s^2 + 54s + 18} }
+\end{center}
 
 \clearpage
 \rule{\textwidth}{1pt}
@@ -3740,8 +4015,16 @@ Determine the transfer function $\dfrac{X_2(s)}{F(s)}$ of the system below\\
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
+\begin{center}
+
 FBD of $M_1$\\
 
 $\sum F_x=0 \quad \rightarrow \quad \oplus$\\
@@ -3750,7 +4033,7 @@ $f(t)+3\frac{dx_2}{dt}+4x_2-4\frac{d^2x_1}{dt^2}-10\frac{dx_1}{dt}-4x_1=0$\\
 
 $F(s)+3sX_2(s)+4X_2(s)-4s^2X_1(s)-10sX_1(s)-4X_1(s)=0$\\
 
-$F(s)=(4s^2+10s+4)X_1(s)-(3s+4)X_2(s) \rightarrow eq.1$\\
+$F(s)=(4s^2+10s+4)X_1(s)-(3s+4)X_2(s) \rightarrow \text{eq.1}$\\
 
 FBD of $M_2$\\
 
@@ -3762,16 +4045,21 @@ $3sX_1(s)+4X_1(s)-4s^2X_2(s)-3sX_2(s)-14X_2(s)=0$\\
 
 $(3s+4)X_1(s)=(4s^2+3s+14)X_2(s)$\\
 
-$X_1(s)=\dfrac{4s^2+3s+14}{3s+4}X_2(s) \rightarrow eq.2$\\
+$X_1(s)=\dfrac{4s^2+3s+14}{3s+4}X_2(s) \rightarrow \text{eq.2}$\\
 
 Substitute eq.2 to eq.1\\
 
 $F(s)=(4s^2+10s+4)\left(\dfrac{4s^2+3s+14}{3s+4}X_2(s)\right)-(3s+4)X_2(s)$\\
+
 $F(s)=X_2(s)\left(\dfrac{16s^4+52s^3+93s^2+138s+40}{3s+4}\right)$\\
 
 $\dfrac{F(s)}{X_2(s)}=\dfrac{16s^4+52s^3+93s^2+138s+40}{3s+4}$\\
 
-\boxed{\dfrac{X_2(s)}{F(s)}=\dfrac{3s+4}{16s^4+52s^3+93s^2+138s+40}}
+\boxed{ \dfrac{X_2(s)}{F(s)} = \dfrac{3s+4}{16s^4 + 52s^3 + 93s^2 + 138s + 40} }
+
+\end{center}
+
+
 
 
 \clearpage
@@ -3822,32 +4110,47 @@ $\dfrac{F(s)}{X_2(s)}=\dfrac{16s^4+52s^3+93s^2+138s+40}{3s+4}$\\
 \end{center}
 
 \rule{\textwidth}{1pt}
-\vspace{12pt}
-\textit{\textbf{Solution:}}\\
 
-FBD @ 6 $kg-m^2$ inertia\\
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
+\begin{center}
+
+\vspace{12pt}
+
+FBD @ 6 $kg\text{-}m^2$ inertia\\
 
 \begin{tikzpicture}
     \draw[] (0,0) circle (2cm) ;
-    \node at (0,0) {$6 kg-m^2$};
+    \node at (0,0) {$6 kg\text{-}m^2$};
     \draw[-{Latex[length=2mm]}, thick, bend left=45, shorten >=5pt] (70:2.2cm) to[bend left=35]  node[midway, left, yshift=.5cm]{$T(t)$} (25:2.2cm);
     \draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (105:2.2cm) to[bend right=35] node[midway, left, yshift=.3cm] {$9 \theta(t) $} (150:2.2cm);
     \draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (155:2.2cm) to[bend right=35] node[midway, left] {$5\dfrac{d\theta(t)}{dt}$} (200:2.2cm);
     \draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] 
       (205:2.2cm) to[bend right=35] node[midway, below,xshift=-.5cm] {$6\dfrac{d^2\theta(t)}{dt^2}$} (250:2.2cm);
-    \end{tikzpicture}
+\end{tikzpicture}
 
-    $\sum T = 0 \quad \circlearrowright \hspace{-0.8em} $+$  $ \\
+$\sum T = 0 \quad \circlearrowright \hspace{-0.8em} $+$  $ \\
 
-    $T(t)-6\dfrac{d^2\theta(t)}{dt^2}-5\dfrac{d\theta(t)}{dt}-9 \theta(t)=0$\\
+$T(t)-6\dfrac{d^2\theta(t)}{dt^2}-5\dfrac{d\theta(t)}{dt}-9 \theta(t)=0$\\
 
-    $T(s)-6s^2\theta(s)-5s\theta(s)-9\theta(s)=0$\\
+$T(s)-6s^2\theta(s)-5s\theta(s)-9\theta(s)=0$\\
 
-    $(6s^2+5s+9)\theta(s)=T(s)$\\
+$(6s^2+5s+9)\theta(s)=T(s)$\\
 
-    $\dfrac{T(s)}{\theta(s)}=(6s^2+5s+9)$\\
+$\dfrac{T(s)}{\theta(s)}=(6s^2+5s+9)$\\
 
-    \boxed{ \begin{aligned} & \dfrac{\theta(s)}{T(s)}=\dfrac{1}{6s^2+5s+9} \ \end{aligned} }\\
+\boxed{ \dfrac{\theta(s)}{T(s)}=\dfrac{1}{6s^2+5s+9} }
+
+\end{center}
+
+
+
+    
 
 \clearpage
 \rule{\textwidth}{1pt}
@@ -3901,8 +4204,14 @@ $D=3N-m-s/rad ; K_1=4 N-m/rad ; K_2=5 N-m/rad ; J=6 kg-m^2$\\
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\begin{center}
+\noindent\textit{\textbf{Solution:}}
+\vspace{12pt}
+
 FBD of J inertia\\
 
 \begin{tikzpicture}
@@ -3925,8 +4234,11 @@ FBD of J inertia\\
 
     $\dfrac{T(s)}{\theta(s)}=(6s^2+3s+9)$\\
 
-    \boxed{ \begin{aligned} & \dfrac{\theta(s)}{T(s)}=\dfrac{1}{6s^2+3s+9} \ \end{aligned} }\\
+	
+    \boxed{ \begin{aligned} & \dfrac{\theta(s)}{T(s)}=\dfrac{1}{6s^2+3s+9} \ \end{aligned} }
 
+
+\end{center}
 			\clearpage
 			\rule{\textwidth}{1pt}
 			\textbf{Problem 53}\\
@@ -3979,8 +4291,16 @@ FBD of J inertia\\
 		\end{center}
 
 			\rule{\textwidth}{1pt}
-			\vspace{12pt}
-			\textit{\textbf{Solution:}}\\
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\begin{center}
+
+\vspace{12pt}
+
 			FBD of J inertia\\
 			
 			\begin{tikzpicture}
@@ -4002,8 +4322,11 @@ FBD of J inertia\\
 				$(3s^2+13s+5)\theta(s)=T(s)$\\
 
 				$\dfrac{T(s)}{\theta(s)}=(3s^2+13s+5)$\\
+	\begin{center}
+\boxed{ \begin{aligned} & \dfrac{\theta(s)}{T(s)}=\dfrac{1}{3s^2+13s+5} \ \end{aligned} }
+\end{center}
 
-				\boxed{ \begin{aligned} & \dfrac{\theta(s)}{T(s)}=\dfrac{1}{3s^2+13s+5} \ \end{aligned} }\\
+\end{center}			
 			
 
 			\clearpage
@@ -4068,8 +4391,15 @@ FBD of J inertia\\
 		\end{center}
 
 			\rule{\textwidth}{1pt}
-			\vspace{12pt}
-			\textit{\textbf{Solution:}}\\	
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+\begin{center}
+
+\vspace{12pt}
+
 			\begin{minipage}{.5\textwidth}
 				FBD of J1 inertia\\
 				\begin{tikzpicture}
@@ -4090,41 +4420,60 @@ FBD of J inertia\\
 					$T(s)+2s\theta_2(s)-5s^2\theta_1(s)-2s\theta_1(s)-3\theta_1(s)=0$\\
 	
 					$(5s^2+2s+3)\theta_1(s)-2s\theta_2(s)=T(s) \rightarrow eq.1 $\\
-			\end{minipage}			
-			\begin{minipage}{.5\textwidth}
-				FBD of J2 inertia\\
-				\begin{tikzpicture}
-					\draw[] (0,0) circle (2cm) ;
-					\node at (0,0) {$J2$};
-					\draw[-{Latex[length=2mm]}, thick, bend left=45, shorten >=5pt] (70:2.2cm) to[bend left=35]  node[midway, right, yshift=.5cm]{$2\dfrac{d\theta_1(t)}{dt}$} (25:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (105:2.2cm) to[bend right=35] node[midway, left, yshift=.3cm] {$6 \theta_2(t) $} (150:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (155:2.2cm) to[bend right=35] node[midway, left] {$2\dfrac{d\theta_2(t)}{dt}$} (200:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] 
-					  (205:2.2cm) to[bend right=35] node[midway, below,xshift=-.5cm] {$5\dfrac{d^2\theta_2(t)}{dt^2}$} (250:2.2cm);
-					\end{tikzpicture}
-	
-					$\sum T = 0 \quad \circlearrowright \hspace{-0.8em} $+$  $ \\
-	
-					$2\dfrac{d\theta_1(t)}{dt}-5\dfrac{d^2\theta_2(t)}{dt^2}-2\dfrac{d\theta_2(t)}{dt}-6\theta_2(t)=0$\\
-	
-					$2s\theta_1(s)-5s^2\theta_2(s)-2s\theta_2(s)-3\theta_2(s)=0$\\
-	
-					$2s\theta_1(s)=(5s^2+2s+3)\theta_2(s)$\\
-	
-					$\theta_2(s)=\dfrac{2s}{5s^2+2s+3}\theta_1(s)  \rightarrow eq.2$\\
-			\end{minipage}
-			Substitute eq.2 to eq.1\\
+			\end{minipage}		
 
-			$(5s^2+2s+3)\theta_1(s)-2s\theta_2(s)=T(s)~~~~~~~~~~~~~~~\theta_1(s)\left(\dfrac{-4s^2+25s^4+20s^3+34s^2+12s+9}{5s^2+2s+3}\right)=T(s)$\\
+			\newpage	
 
-			$(5s^2+2s+3)\theta_1(s)-2s\left(\dfrac{2s}{5s^2+2s+3}\theta_1(s)\right)=T(s)~~\left(\dfrac{25s^4+20s^3+30s^2+12s+9}{5s^2+2s+3}\right)=\dfrac{T(s)}{\theta_1(s)}$\\
+\begin{minipage}{.5\textwidth}
+FBD of $J_2$ inertia:
+\vspace{4pt}
 
-			$(5s^2+2s+3)\theta_1(s)\left(\dfrac{-4s^2}{5s^2+2s+3}\theta_1(s)\right)=T(s)$~~~~\boxed{ \begin{aligned} & \dfrac{\theta_1(s)}{T(s)}=\dfrac{5s^2+2s+3}{25s^4+20s^3+30s^2+12s+9} \ \end{aligned} }\\
+\begin{tikzpicture}
+	\draw[] (0,0) circle (2cm);
+	\node at (0,0) {$J_2$};
+	\draw[-{Latex[length=2mm]}, thick, bend left=45, shorten >=5pt] (70:2.2cm) to[bend left=35]  node[midway, right, yshift=.5cm]{$2\dfrac{d\theta_1(t)}{dt}$} (25:2.2cm);
+	\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (105:2.2cm) to[bend right=35] node[midway, left, yshift=.3cm] {$6 \theta_2(t)$} (150:2.2cm);
+	\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (155:2.2cm) to[bend right=35] node[midway, left] {$2\dfrac{d\theta_2(t)}{dt}$} (200:2.2cm);
+	\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (205:2.2cm) to[bend right=35] node[midway, below,xshift=-.5cm] {$5\dfrac{d^2\theta_2(t)}{dt^2}$} (250:2.2cm);
+\end{tikzpicture}
 
-			$\theta_1(s)\left((5s^2+2s+3)+\dfrac{-4s^2}{5s^2+2s+3}\right)=T(s)$\\
+\vspace{4pt}
+$\sum T = 0 \quad \circlearrowright +$\\
 
-				
-			
+$2\dfrac{d\theta_1(t)}{dt} - 5\dfrac{d^2\theta_2(t)}{dt^2} - 2\dfrac{d\theta_2(t)}{dt} - 6\theta_2(t) = 0$\\
+
+$2s\theta_1(s) - 5s^2\theta_2(s) - 2s\theta_2(s) - 6\theta_2(s) = 0$\\
+
+$2s\theta_1(s) = (5s^2 + 2s + 6)\theta_2(s)$\\
+
+$\theta_2(s) = \dfrac{2s}{5s^2 + 2s + 6}\theta_1(s) \quad \text{(eq. 2)}$\\
+\end{minipage}
+
+\vspace{1em}
+
+Substitute eq. 2 into the torque equation:
+
+\[
+(5s^2 + 2s + 3)\theta_1(s) - 2s\theta_2(s) = T(s)
+\]
+
+\[
+(5s^2 + 2s + 3)\theta_1(s) - 2s\left(\dfrac{2s}{5s^2 + 2s + 6}\theta_1(s)\right) = T(s)
+\]
+
+\[
+\Rightarrow \theta_1(s) \left( (5s^2 + 2s + 3) - \dfrac{4s^2}{5s^2 + 2s + 6} \right) = T(s)
+\]
+
+\[
+\Rightarrow \dfrac{T(s)}{\theta_1(s)} = \dfrac{25s^4 + 20s^3 + 30s^2 + 12s + 9}{5s^2 + 2s + 6}
+\]
+
+\begin{center}
+\boxed{ \dfrac{\theta_1(s)}{T(s)} = \dfrac{5s^2 + 2s + 6}{25s^4 + 20s^3 + 30s^2 + 12s + 9} }
+\end{center}
+
+\end{center}
 
 			\clearpage
 			\rule{\textwidth}{1pt}
@@ -4188,8 +4537,14 @@ FBD of J inertia\\
 		\end{center}
 
 			\rule{\textwidth}{1pt}
-			\vspace{12pt}
-			\textit{\textbf{Solution:}}\\
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+\begin{center}
+\vspace{12pt}
+
 			\begin{minipage}{.5\textwidth}
 				FBD of J1 inertia\\
 				\begin{tikzpicture}
@@ -4210,38 +4565,60 @@ FBD of J inertia\\
 					$T(s)+2s\theta_2(s)-5s^2\theta_1(s)-2s\theta_1(s)-3\theta_1(s)=0$\\
 	
 					$(5s^2+2s+3)\theta_1(s)-2s\theta_2(s)=T(s) \rightarrow eq.1 $\\
-			\end{minipage}			
-			\begin{minipage}{.5\textwidth}
-				FBD of J2 inertia\\
-				\begin{tikzpicture}
-					\draw[] (0,0) circle (2cm) ;
-					\node at (0,0) {$J2$};
-					\draw[-{Latex[length=2mm]}, thick, bend left=45, shorten >=5pt] (70:2.2cm) to[bend left=35]  node[midway, right, yshift=.5cm]{$2\dfrac{d\theta_1(t)}{dt}$} (25:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (105:2.2cm) to[bend right=35] node[midway, left, yshift=.3cm] {$6 \theta_2(t) $} (150:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (155:2.2cm) to[bend right=35] node[midway, left] {$2\dfrac{d\theta_2(t)}{dt}$} (200:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] 
-					  (205:2.2cm) to[bend right=35] node[midway, below,xshift=-.5cm] {$5\dfrac{d^2\theta_2(t)}{dt^2}$} (250:2.2cm);
-					\end{tikzpicture}
-	
-					$\sum T = 0 \quad \circlearrowright \hspace{-0.8em} $+$  $ \\
-	
-					$2\dfrac{d\theta_1(t)}{dt}-5\dfrac{d^2\theta_2(t)}{dt^2}-2\dfrac{d\theta_2(t)}{dt}-6\theta_2(t)=0$\\
-	
-					$2s\theta_1(s)-5s^2\theta_2(s)-2s\theta_2(s)-3\theta_2(s)=0$\\
-	
-					$2s\theta_1(s)=(5s^2+2s+3)\theta_2(s)$\\
-	
-					$\theta_2(s)=\dfrac{2s}{5s^2+2s+3}\theta_1(s)  \rightarrow eq.2$\\
-			\end{minipage}
-			Substitute eq.2 to eq.1\\
+			\end{minipage}		
 
-			$(5s^2+2s+3)\theta_1(s)-2s\theta_2(s)=T(s)~~~~~~~~~~~~~~~\theta_1(s)\left(\dfrac{-4s^2+25s^4+20s^3+34s^2+12s+9}{5s^2+2s+3}\right)=T(s)$\\
+\newpage
 
-			$(5s^2+2s+3)\theta_1(s)-2s\left(\dfrac{2s}{5s^2+2s+3}\theta_1(s)\right)=T(s)~~\left(\dfrac{25s^4+20s^3+30s^2+12s+9}{5s^2+2s+3}\right)=\dfrac{T(s)}{\theta_1(s)}$\\
+\begin{minipage}{.5\textwidth}
+FBD of $J_2$ inertia:
+\vspace{4pt}
 
-			$(5s^2+2s+3)\theta_1(s)\left(\dfrac{-4s^2}{5s^2+2s+3}\theta_1(s)\right)=T(s)$~~~~\boxed{ \begin{aligned} & \dfrac{\theta_1(s)}{T(s)}=\dfrac{5s^2+2s+3}{25s^4+20s^3+30s^2+12s+9} \ \end{aligned} }\\
+\begin{tikzpicture}
+	\draw[] (0,0) circle (2cm);
+	\node at (0,0) {$J_2$};
+	\draw[-{Latex[length=2mm]}, thick, bend left=45, shorten >=5pt] (70:2.2cm) to[bend left=35]  node[midway, right, yshift=.5cm]{$2\dfrac{d\theta_1(t)}{dt}$} (25:2.2cm);
+	\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (105:2.2cm) to[bend right=35] node[midway, left, yshift=.3cm] {$6 \theta_2(t)$} (150:2.2cm);
+	\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (155:2.2cm) to[bend right=35] node[midway, left] {$2\dfrac{d\theta_2(t)}{dt}$} (200:2.2cm);
+	\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (205:2.2cm) to[bend right=35] node[midway, below,xshift=-.5cm] {$5\dfrac{d^2\theta_2(t)}{dt^2}$} (250:2.2cm);
+\end{tikzpicture}
 
-			$\theta_1(s)\left((5s^2+2s+3)+\dfrac{-4s^2}{5s^2+2s+3}\right)=T(s)$\\
+\vspace{4pt}
+$\sum T = 0 \quad \circlearrowright +$\\
+
+$2\dfrac{d\theta_1(t)}{dt} - 5\dfrac{d^2\theta_2(t)}{dt^2} - 2\dfrac{d\theta_2(t)}{dt} - 6\theta_2(t) = 0$\\
+
+$2s\theta_1(s) - 5s^2\theta_2(s) - 2s\theta_2(s) - 6\theta_2(s) = 0$\\
+
+$2s\theta_1(s) = (5s^2 + 2s + 6)\theta_2(s)$\\
+
+$\theta_2(s) = \dfrac{2s}{5s^2 + 2s + 6}\theta_1(s) \quad \text{(eq. 2)}$
+\end{minipage}
+
+\vspace{1em}
+
+Substitute eq. 2 into the torque equation:
+
+\[
+(5s^2 + 2s + 3)\theta_1(s) - 2s\theta_2(s) = T(s)
+\]
+
+\[
+(5s^2 + 2s + 3)\theta_1(s) - 2s\left( \dfrac{2s}{5s^2 + 2s + 6} \theta_1(s) \right) = T(s)
+\]
+
+\[
+\Rightarrow \theta_1(s) \left( (5s^2 + 2s + 3) - \dfrac{4s^2}{5s^2 + 2s + 6} \right) = T(s)
+\]
+
+\[
+\Rightarrow \dfrac{T(s)}{\theta_1(s)} = \dfrac{25s^4 + 20s^3 + 30s^2 + 12s + 9}{5s^2 + 2s + 6}
+\]
+
+\begin{center}
+\boxed{ \dfrac{\theta_1(s)}{T(s)} = \dfrac{5s^2 + 2s + 6}{25s^4 + 20s^3 + 30s^2 + 12s + 9} }
+\end{center}
+
+\end{center}
 
 			\clearpage
 			\rule{\textwidth}{1pt}
@@ -4308,8 +4685,15 @@ FBD of J inertia\\
 		\end{center}
 
 			\rule{\textwidth}{1pt}
-			\vspace{12pt}
-			\textit{\textbf{Solution:}}\\
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+
+\noindent\textit{\textbf{Solution:}}
+\begin{center}
+\vspace{12pt}
+
 				FBD of J1 inertia\\
 
 				\begin{tikzpicture}
@@ -4371,10 +4755,12 @@ FBD of J inertia\\
 
 					$\dfrac{T(s)}{\theta_2(s)}=\left(\dfrac{4s^4+36s^3+46s^2+100s+50}{8s+2}\right)$\\
 
-					\boxed{ \begin{aligned} & \dfrac{\theta_2(s)}{T(s)}=\dfrac{8s+2}{4s^4+36s^3+46s^2+100s+50} \ \end{aligned} }\\
+					\begin{center}
+\boxed{ \begin{aligned} & \dfrac{\theta_2(s)}{T(s)}=\dfrac{8s+2}{4s^4+36s^3+46s^2+100s+50} \ \end{aligned} }
+\end{center}
 
-			
 
+\end{center}
 			\clearpage
 			\rule{\textwidth}{1pt}
 			\textbf{Problem 57}\\
@@ -4441,8 +4827,16 @@ FBD of J inertia\\
 		\end{center}
 
 			\rule{\textwidth}{1pt}
-			\vspace{12pt}
-			\textit{\textbf{Solution:}}\\
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+
+\noindent\textit{\textbf{Solution:}}
+\begin{center}
+
+\vspace{12pt}
+
 			FBD of J2 inertia\\
 
 			\begin{tikzpicture}
@@ -4502,14 +4896,14 @@ FBD of J inertia\\
 
 					$\dfrac{T(s)}{\theta_2(s)}=\dfrac{35s+15}{5}$\\
 
-					\boxed{ \begin{aligned} & \dfrac{\theta_2(s)}{T(s)}=\dfrac{5}{35s+15} \ \end{aligned} }\\
+					
+\boxed{ \begin{aligned} & \dfrac{\theta_2(s)}{T(s)}=\dfrac{5}{35s+15} \ \end{aligned} }
 
-
-
-			\clearpage
-			\rule{\textwidth}{1pt}
-			\textbf{Problem 58}\\
-			1. Determine the transfer function $\dfrac{\theta_2(s)}{T(s)}$ of the system below\\
+\end{center}					
+\clearpage
+\rule{\textwidth}{1pt}
+\textbf{Problem 58}\\
+Determine the transfer function $\dfrac{\theta_2(s)}{T(s)}$ of the system below\\
 			\tdplotsetmaincoords{60}{110}
 			\begin{center}
 			\begin{tikzpicture}[scale=1.1,tdplot_main_coords,every node/.style={draw,outer sep=0pt,thick}]
@@ -4565,64 +4959,80 @@ FBD of J inertia\\
 			\end{tikzpicture}
 		\end{center}
 
-			\rule{\textwidth}{1pt}
-			\vspace{12pt}
-			\textit{\textbf{Solution:}}\\
-			\begin{minipage}{.5\textwidth}
-				FBD of J2 inertia\\
-				\begin{tikzpicture}
-					\draw[] (0,0) circle (2cm) ;
-					\node at (0,0) {$3 kg-m^2$};
-					\draw[-{Latex[length=2mm]}, thick, bend left=45, shorten >=5pt] (70:2.2cm) to[bend left=35]  node[midway, left, yshift=.5cm]{$T(t)$} (25:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend left=45, shorten >=5pt] (25:2.2cm) to[bend left=30]  node[midway, right, yshift=.5cm]{$2 \theta_1(t)$} (340:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (105:2.2cm) to[bend right=35] node[midway, left, yshift=.3cm] {$2 \theta_2(t) $} (150:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (155:2.2cm) to[bend right=35] node[midway, left] {$9\dfrac{d\theta_2(t)}{dt}$} (200:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] 
-					  (205:2.2cm) to[bend right=35] node[midway, below,xshift=-.5cm] {$3\dfrac{d^2\theta_2(t)}{dt^2}$} (250:2.2cm);
-					\end{tikzpicture}
-	
-					$\sum T = 0 \quad \circlearrowright \hspace{-0.8em} $+$  $ \\
-	
-					$T(t)+2 \theta_1(t)-3\dfrac{d^2\theta_2(t)}{dt^2}-9\dfrac{d\theta_2(t)}{dt}-2\theta_2(t)=0$\\
-	
-					$T(s)+2\theta_1(s)-3s^2\theta_2(s)-9s\theta_2(s)-2\theta_2(s)=0$\\
-	
-					$-2\theta_1(s)+(3s^2+9s+2)\theta_2(s)=T(s) \rightarrow eq.1 $\\
-			\end{minipage}			
-			\begin{minipage}{.5\textwidth}
-				FBD of J1 inertia\\
-				\begin{tikzpicture}
-					\draw[] (0,0) circle (2cm) ;
-					\node at (0,0) {$3 kg-m^2$};
-					\draw[-{Latex[length=2mm]}, thick, bend left=45, shorten >=5pt] (70:2.2cm) to[bend left=35]  node[midway, left, yshift=.5cm]{$2 \theta_2(t)$} (25:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (105:2.2cm) to[bend right=35] node[midway, left, yshift=.3cm] {$2 \theta_1(t) $} (150:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (155:2.2cm) to[bend right=35] node[midway, left] {$8\dfrac{d\theta_1(t)}{dt}$} (200:2.2cm);
-					\draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] 
-					  (205:2.2cm) to[bend right=35] node[midway, below,xshift=-.5cm] {$3\dfrac{d^2\theta_1(t)}{dt^2}$} (250:2.2cm);
-					\end{tikzpicture}
-	
-					$\sum T = 0 \quad \circlearrowright \hspace{-0.8em} $+$  $ \\
-	
-					$2 \theta_2(t)-3\dfrac{d^2\theta_1(t)}{dt^2}-8\dfrac{d\theta_1(t)}{dt}-2\theta_1(t)=0$\\
-	
-					$2\theta_2(s)-3s^2\theta_2(s)-8s\theta_2(s)-2\theta_2(s)=0$\\
-	
-					$2\theta_1(s)=(3s^2+8s+2)\theta_2(s)$\\
+\rule{\textwidth}{1pt}
 
-					$\theta_1(s)=\dfrac{3s^2+8s+2}{2}\theta_2(s) \rightarrow eq.2 $\\
-			\end{minipage}	
-			
-			Substitute eq.2 to eq.1\\
+\noindent\textbf{Given:} As per diagram
 
-			$T(s)=-2\theta_1(s)+(3s^2+9s+2)\theta_2(s)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~T(s)=\left(\dfrac{2s}{2}\right)\theta_2(s)$\\
+\vspace{12pt}
 
-			$T(s)=-2\left(\dfrac{3s^2+8s+2}{2}\theta_2(s)\right)+(3s^2+9s+2)\theta_2(s)~~~~~~~~~~~~~~\dfrac{T(s)}{\theta_2(s)}=\dfrac{2s}{2}$\\
+\noindent\textit{\textbf{Solution:}}
+\begin{center}
+\vspace{12pt}
 
-			$T(s)=\left(\dfrac{(-2)(3s^2+8s+2)}{2}\theta_2(s)\right)+(3s^2+9s+2)\theta_2(s)$~~~~~~~~~\boxed{ \begin{aligned} & \dfrac{\theta_2(s)}{T(s)}=\dfrac{2}{2s} \ \end{aligned} }\\
 
-			$T(s)=\left(\dfrac{-6s^2-16s-4}{2}+(3s^2+9s+2)\right)\theta_2(s)$\\
+\subsection*{FBD of J2 Inertia}
+\begin{tikzpicture}
+    \draw[] (0,0) circle (2cm);
+    \node at (0,0) {$3 kg-m^2$};
+    \draw[-{Latex[length=2mm]}, thick, bend left=45, shorten >=5pt] (70:2.2cm) to[bend left=35] node[midway, left, yshift=.5cm]{$T(t)$} (25:2.2cm);
+    \draw[-{Latex[length=2mm]}, thick, bend left=45, shorten >=5pt] (25:2.2cm) to[bend left=30] node[midway, right, yshift=.5cm]{$2 \theta_1(t)$} (340:2.2cm);
+    \draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (105:2.2cm) to[bend right=35] node[midway, left, yshift=.3cm] {$2 \theta_2(t)$} (150:2.2cm);
+    \draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (155:2.2cm) to[bend right=35] node[midway, left] {$9\dfrac{d\theta_2(t)}{dt}$} (200:2.2cm);
+    \draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (205:2.2cm) to[bend right=35] node[midway, below,xshift=-.5cm] {$3\dfrac{d^2\theta_2(t)}{dt^2}$} (250:2.2cm);
+\end{tikzpicture}
 
-			$T(s)=\left(\dfrac{-6s^2-16s-4+6s^2+18s+4}{2}\right)\theta_2(s)$\\
+\subsection*{Equation of Motion for J2}
+$\sum T = 0 \quad \circlearrowright \hspace{-0.8em} + $
+
+$T(t)+2 \theta_1(t)-3\dfrac{d^2\theta_2(t)}{dt^2}-9\dfrac{d\theta_2(t)}{dt}-2\theta_2(t)=0$
+
+Laplace Transform:
+$T(s)+2\theta_1(s)-3s^2\theta_2(s)-9s\theta_2(s)-2\theta_2(s)=0$
+
+Rearranged:
+$-2\theta_1(s)+(3s^2+9s+2)\theta_2(s)=T(s) \quad \textbf{(Equation 1)}$
+
+\subsection*{FBD of J1 Inertia}
+\begin{tikzpicture}
+    \draw[] (0,0) circle (2cm);
+    \node at (0,0) {$3 kg-m^2$};
+    \draw[-{Latex[length=2mm]}, thick, bend left=45, shorten >=5pt] (70:2.2cm) to[bend left=35] node[midway, left, yshift=.5cm]{$2 \theta_2(t)$} (25:2.2cm);
+    \draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (105:2.2cm) to[bend right=35] node[midway, left, yshift=.3cm] {$2 \theta_1(t)$} (150:2.2cm);
+    \draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (155:2.2cm) to[bend right=35] node[midway, left] {$8\dfrac{d\theta_1(t)}{dt}$} (200:2.2cm);
+    \draw[-{Latex[length=2mm]}, thick, bend right=45, shorten >=5pt] (205:2.2cm) to[bend right=35] node[midway, below,xshift=-.5cm] {$3\dfrac{d^2\theta_1(t)}{dt^2}$} (250:2.2cm);
+\end{tikzpicture}
+
+\subsection*{Equation of Motion for J1}
+$\sum T = 0 \quad \circlearrowright \hspace{-0.8em} + $
+
+$2 \theta_2(t)-3\dfrac{d^2\theta_1(t)}{dt^2}-8\dfrac{d\theta_1(t)}{dt}-2\theta_1(t)=0$
+
+Laplace Transform:
+$2\theta_2(s)-3s^2\theta_1(s)-8s\theta_1(s)-2\theta_1(s)=0$
+
+Rearranged:
+$(3s^2+8s+2)\theta_1(s)=2\theta_2(s)$
+
+$\theta_1(s)=\dfrac{2}{3s^2+8s+2}\theta_2(s) \quad \textbf{(Equation 2)}$
+
+\subsection*{Solving the System}
+Substitute Equation 2 into Equation 1:
+
+$T(s)=-2\left(\dfrac{2}{3s^2+8s+2}\theta_2(s)\right)+(3s^2+9s+2)\theta_2(s)$
+
+$T(s)=\left(\dfrac{-4}{3s^2+8s+2}+3s^2+9s+2\right)\theta_2(s)$
+
+$T(s)=\left(\dfrac{-4+(3s^2+9s+2)(3s^2+8s+2)}{3s^2+8s+2}\right)\theta_2(s)$
+
+After expansion and simplification:
+
+$T(s)=\left(\dfrac{9s^4+51s^3+88s^2+42s}{3s^2+8s+2}\right)\theta_2(s)$
+
+\begin{center}
+\boxed{ \dfrac{\theta_2(s)}{T(s)} = \dfrac{3s^2+8s+2}{9s^4+51s^3+88s^2+42s} }
+\end{center}
+
+\end{center}
 
 			\clearpage
 			\rule{\textwidth}{1pt}
@@ -4687,8 +5097,14 @@ FBD of J inertia\\
 		\end{center}
 
 			\rule{\textwidth}{1pt}
-			\vspace{12pt}
-			\textit{\textbf{Solution:}}\\
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+\begin{center}
+\vspace{12pt}
+
 			FBD of J2 inertia\\
 
 			\begin{tikzpicture}
@@ -4751,8 +5167,10 @@ FBD of J inertia\\
 
 					$\dfrac{T(s)}{\theta_2(s)}=\dfrac{64s^4+88s^3+231s^2+117s+81}{8s^2+8s+9}$\\
 
-					\boxed{ \begin{aligned} & \dfrac{\theta_2(s)}{T(s)}=\dfrac{8s^2+8s+9}{64s^4+88s^3+231s^2+117s+81} \ \end{aligned} }\\
-			
+\boxed{ \begin{aligned} & \dfrac{\theta_2(s)}{T(s)}=\dfrac{8s^2+8s+9}{64s^4+88s^3+231s^2+117s+81} \ \end{aligned} }
+
+					
+\end{center}
 
                     \clearpage
 \rule{\textwidth}{1pt}
@@ -4820,6 +5238,7 @@ FBD of J inertia\\
 \rule{\textwidth}{1pt}
 \vspace{12pt}
 \textit{\textbf{Solution:}}\\
+\begin{center}
 FBD of J2 inertia\\
 
 \begin{tikzpicture}
@@ -4882,8 +5301,11 @@ FBD of J2 inertia\\
 
         $\dfrac{T(s)}{\theta_1(s)}=\dfrac{9s^4+54s^3+104s^2+109s+35}{5s+2}$\\
 
-        \boxed{ \begin{aligned} & \dfrac{\theta_1(s)}{T(s)}=\dfrac{5s+2}{9s^4+54s^3+104s^2+109s+35} \ \end{aligned} }\\	
-			
+
+\boxed{ \begin{aligned} & \dfrac{\theta_1(s)}{T(s)}=\dfrac{5s+2}{9s^4+54s^3+104s^2+109s+35} \ \end{aligned} }	
+
+
+\end{center}       
 \clearpage
 
 \rule{\textwidth}{1pt}
@@ -4947,8 +5369,14 @@ Find the transfer function ${\theta_2(s)}{T(s)}$ \\
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Equation of Motion\\[12pt]
 For $\theta_1$\\
 \begin{center}
@@ -5055,8 +5483,14 @@ Find the transfer function $\dfrac{\theta_2(s)}{T(s)}$ \\
 \end{center}
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Force Balance on M\\[12pt]
 First Mass (Moment of Inertia J):\\
 \begin{center}
@@ -5115,7 +5549,7 @@ Substitute the Given Values:\\
 \noindent\rule{\textwidth}{0.4pt}
 \textbf{Problem 63}
 
-Given $J = 2\,\text{kg}\cdot\text{m}^2$, $D=0.5\,\text{N}\cdot\text{m}\cdot\text{s}/\text{rad}$, and $K=3\,\text{N}\cdot\text{m}/\text{rad}$, find the transfer function
+Find the transfer function
 
 \[
 G(s) = \frac{\Theta(s)}{T(s)}
@@ -5176,19 +5610,13 @@ for the system below:
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\bigskip
-\textbf{Given:}
+\noindent\textbf{Given:} As per diagram
 
-$J = 2\,\text{kg}\cdot\text{m}^2$
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
 
-$D=0.5\,\text{N}\cdot\text{m}\cdot\text{s}/\text{rad}$
+\vspace{12pt}
 
-$K=3\,\text{N}\cdot\text{m}/\text{rad}$
-
-\bigskip
-\textbf{Required:} G(s)
-
-\bigskip
 \textbf{Solution:}
 
 From the diagram, this is a single-degree-of-freedom rotational mechanical system with moment of inertia $J$, damper $D$, and torsional spring $K$.
@@ -5213,11 +5641,17 @@ G(s) = \frac{1}{2s^2 + 0.5s + 3}
 \[
 \boxed{G(s) = \frac{1}{2s^2 + 0.5s + 3}}
 \]
+\clearpage 
 
-
-\clearpage
 \noindent\rule{\textwidth}{0.4pt}
+
 \textbf{Problem 64}
+
+Find the transfer function
+
+\[
+G(s) = \frac{\Theta(s)}{T(s)}
+\]
 
 \begin{center}
 \begin{tikzpicture}[scale=1, line width=0.8pt]
@@ -5269,97 +5703,140 @@ G(s) = \frac{1}{2s^2 + 0.5s + 3}
 \end{tikzpicture}
 \end{center}
 
-Find the natural frequency $\omega_n$ and damping ratio $\zeta$ for the above system.
-
 \noindent\rule{\textwidth}{0.4pt}
 
-\vspace{3cm}
 
-\textbf{Given:} As per diagram
+\noindent\textbf{Given:} As per diagram
 
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
+
+ Single-degree-of-freedom rotational mechanical system
 \bigskip
-\textbf{Required:} $\omega_n$ and damping ratio $\zeta$
-
-\bigskip
-\textbf{Solution:}
-
-This system is a standard second-order rotational mechanical model. We compute:
+The equation of motion in the Laplace domain is:
 \[
-\omega_n = \sqrt{\frac{K}{J}} = \sqrt{\frac{3}{2}} \approx 1.225
+(Js^2 + Ds + K)\Theta(s) = T(s)
 \]
+
+Solving for the transfer function:
 \[
-\zeta = \frac{D}{2\sqrt{JK}} = \frac{0.5}{2\sqrt{2 \cdot 3}} \approx 0.102
+G(s) = \frac{\Theta(s)}{T(s)} = \frac{1}{Js^2 + Ds + K}
+\]
+
+Substitute the given values:
+\[
+G(s) = \frac{1}{4s^2 + 2s + 5}
 \]
 
 \textbf{Answer:}
 \[
-\boxed{\omega_n \approx 1.225,\ \zeta \approx 0.102}
+\boxed{G(s) = \frac{1}{4s^2 + 2s + 5}}
+\]
+\clearpage 
+
+\noindent\rule{\textwidth}{0.4pt}
+\textbf{Problem 65}
+Find the transfer function
+
+\[
+G(s) = \frac{\Theta(s)}{T(s)}
 \]
 
-\clearpage
-\textbf{Problem 65}
-
-A system has $J=1$, $K=4$, and no damper. Compute $\omega_n$ and comment on damping.
+\bigskip
+for the system below:
 
 \begin{center}
-\begin{tikzpicture}[scale=1.2]
+\begin{tikzpicture}[scale=1, line width=0.8pt]
 
-  % Wall
-  \fill[gray!30] (0,-0.6) rectangle (0.2,0.6);
-  \foreach \y in {-0.5,-0.4,...,0.5} {
-    \draw[gray!70] (0,\y) -- (0.2,\y+0.1);
-  }
+% Left wall
+\filldraw[gray] (-5,-1) rectangle (-4.5,1);
 
-  % Torsional spring
-  \draw[thick, decoration={aspect=0.3, segment length=3mm, amplitude=2mm, coil}, decorate] (0.2, 0) -- (2,0);
-  \node at (1.1,0.3) {\( K = 4 \)};
+% Shaft to inertia
+\draw (-4.5,0) -- (-3,0);
 
-  % Inertia (side-view disk)
-  \draw (2,0) ellipse (0.2 and 0.3);
-  \draw (2,0.3) -- (4,0.3);
-  \draw (2,-0.3) -- (4,-0.3);
-  \draw (4,0.3) arc (90:-90:0.3);
-  \node at (3,0) {\( J = 1 \)};
+% Inertia J
+\draw (-3,0) ellipse (0.2 and 0.3);
+\draw (-3,0.3) -- (-1,0.3);
+\draw (-3,-0.3) -- (-1,-0.3);
+\draw (-1,0.3) arc (90:-90:0.3);
+\node at (-2,0) {$J$};
 
-  % Torque arrow
-  \draw[<-] (3,0.7) arc (90:-90:0.7);
-  \node at (3,1.2) {\( T(t) \)};
+% Torque arrow
+\draw[<-] (-2,0.7) arc (90:-90:0.7);
+\node at (-2,1.2) {$T(t)$};
 
-  % Theta
-  \node at (3,-1.2) {\( \theta(t) \)};
+% Theta
+\node at (-2,-1.2) {$\theta(t)$};
+
+% Shaft to damper
+\draw (-0.7,0) -- (0.5,0);
+
+% Damper D
+\draw (0.5,0.3) -- (0.5,-0.3);
+\draw (0.5,0.3) -- (0.9,0.3);
+\draw (0.5,-0.3) -- (0.9,-0.3);
+\draw (0.7,0.2) -- (0.7,-0.2);
+\node at (0.9,0.6) {$D$};
+
+%Damper to Spring
+\draw (0.7,0) -- (2,0);
+
+% Spring K
+\draw[decorate, decoration={coil,aspect=0.8,segment length=4mm,amplitude=2mm}] 
+  (2,0) -- (4.5,0);
+\node at (3,0.6) {$K$};
+
+% Spring to Wall
+\draw (4.5,0) -- (5.2,0);
+
+% Right wall
+\filldraw[gray] (5.2,1) rectangle (5.7,-1);
 
 \end{tikzpicture}
 \end{center}
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\vspace{3cm}
 
-\textbf{Given:}
+\noindent\textbf{Given:} As per diagram
 
-$J=1$
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
 
-$K=4$
+\vspace{12pt}
+
+
+From the diagram, this is a single-degree-of-freedom rotational mechanical system with moment of inertia $J$, damper $D$, and torsional spring $K$.
 
 \bigskip
-\textbf{Required:} $\omega_n$ and damping
-
-\bigskip
-\textbf{Solution:}
+The equation of motion in the Laplace domain is:
 \[
-\omega_n = \sqrt{\frac{4}{1}} = 2,\quad \zeta = 0\ \text{(undamped)}
+(Js^2 + Ds + K)\Theta(s) = T(s)
+\]
+
+Solving for the transfer function:
+\[
+G(s) = \frac{\Theta(s)}{T(s)} = \frac{1}{Js^2 + Ds + K}
+\]
+
+Substitute the given values:
+\[
+G(s) = \frac{1}{6s^2 + s + 4}
 \]
 
 \textbf{Answer:}
 \[
-\boxed{\omega_n = 2,\ \zeta = 0\ (\text{undamped})}
+\boxed{G(s) = \frac{1}{6s^2 + s + 4}}
 \]
 
-
 \clearpage
+\noindent\rule{\textwidth}{0.4pt}
 \textbf{Problem 66}
 
-Given $J=0.8$, $D=0.6$, $K=5$, find the steady-state angular displacement $\theta_{ss}$ for a unit step torque input.
+Find the transfer function and identify the damping ratio.
 
 \begin{center}
 \begin{tikzpicture}[scale=1.2, thick]
@@ -5370,26 +5847,26 @@ Given $J=0.8$, $D=0.6$, $K=5$, find the steady-state angular displacement $\thet
     \draw[gray!70] (0,\y) -- (0.2,\y+0.1);
   }
 
-  % Spring
-  \draw[decorate, decoration={coil, segment length=5pt, amplitude=4pt}] 
-        (0.2,0.3) -- (2.0,0.3);
-  \node at (1.1,0.6) {\( K = 5 \)};
-
-  % Damper (Box Style)
+  % Damper
   \draw (0.2,-0.3) -- (1.0,-0.3);
   \draw (1.0,-0.5) -- (1.0,-0.1);
   \draw (1.0,-0.5) -- (1.5,-0.5);
   \draw (1.0,-0.1) -- (1.5,-0.1);
   \draw (1.25,-0.15) -- (1.25,-0.45);
   \draw (1.25,-0.3) -- (2.0,-0.3);
-  \node at (1.4,-0.8) {\( D = 0.6 \)};
+  \node at (1.4,-0.8) {\( D = 1.2 \)};
 
-  % Inertia Disk (Larger and Connected)
-  \draw (2,0) ellipse (0.4 and 0.6); % Larger disk
+  % Coil Spring
+  \draw[decorate, decoration={coil, segment length=6pt, amplitude=4pt}]
+        (0.2,0.3) -- (2.0,0.3);
+  \node at (1.4,0.8) {\( K = 6 \)};
+
+  % Inertia Disk (large)
+  \draw (2,0) ellipse (0.4 and 0.6);
   \draw (2,0.6) -- (4,0.6);
   \draw (2,-0.6) -- (4,-0.6);
   \draw (4,0.6) arc (90:-90:0.6);
-  \node at (3,0) {\( J = 0.8 \)};
+  \node at (3,0) {\( J = 5 \)};
 
   % Torque arrow
   \draw[->, thick] (3,1.1) arc (90:-90:1.1);
@@ -5403,33 +5880,45 @@ Given $J=0.8$, $D=0.6$, $K=5$, find the steady-state angular displacement $\thet
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\vspace{2cm}
-\textbf{Given:}
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 \bigskip
-$J=0.8$, $D=0.6$, $K=5$
-
-\bigskip
-\textbf{Required:} $\theta_{ss}$
-
-\bigskip
-\textbf{Solution:}
+The standard form of the transfer function is:
 
 \bigskip
 \[
-\theta_{ss} = \frac{1}{K} = \frac{1}{5} = 0.2
+G(s) = \frac{1}{Js^2 + Ds + K}
+\]
+
+\bigskip
+Substituting the values:
+\[
+G(s) = \frac{1}{5s^2 + 1.2s + 6}
+\]
+
+\bigskip
+The damping ratio is:
+
+\bigskip
+\[
+\zeta = \frac{D}{2\sqrt{JK}} = \frac{1.2}{2\sqrt{5 \cdot 6}} = \frac{1.2}{2\sqrt{30}} \approx 0.110
 \]
 
 \bigskip
 \textbf{Answer:}
-
-\bigskip
 \[
-\boxed{\theta_{ss} = 0.2\ \text{rad}}
+\boxed{G(s) = \frac{1}{5s^2 + 1.2s + 6}},\quad \boxed{\zeta \approx 0.110}
 \]
 
-
 \clearpage
+\noindent\rule{\textwidth}{0.4pt}
 \textbf{Problem 67}
 
 Determine the transfer function $G(s)$ for:
@@ -5488,16 +5977,14 @@ with $J=1$, $K_1=3$, $K_2=2$.
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\vspace{2cm}
-\textbf{Given:} As per drawing
 
-$J=1$, $K_1=3$, $K_2=2$.
+\noindent\textbf{Given:} As per diagram
 
-\bigskip
-\textbf{Required:} G(s)
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
 
-\bigskip
-\textbf{Solution:}
+\vspace{12pt}
+
 
 \bigskip
 The two torsional springs $K_1$ and $K_2$ are connected in series to the mass moment of inertia $J$. Since they are both acting in parallel on the same shaft, their equivalent stiffness is simply:
@@ -5532,6 +6019,7 @@ G(s) = \frac{1}{s^2 + 5}
 \]
 
 \clearpage
+\noindent\rule{\textwidth}{0.4pt}
 \textbf{Problem 68}
 
 Compute the time constant for a rotational system with $J=0.5$ and $D=1.5$ (no spring).
@@ -5573,14 +6061,16 @@ Compute the time constant for a rotational system with $J=0.5$ and $D=1.5$ (no s
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\vspace{2cm}
+\vspace{12pt}
 \textbf{Given:} $J=0.5$ and $D=1.5$
 
-\bigskip
-\textbf{Required:} $\tau$
+\vspace{12pt}
 
-\bigskip
-\textbf{Solution:}
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 \bigskip
 The time constant for a first-order rotational system is:
@@ -5608,15 +6098,9 @@ Substituting the values:
 
 
 \clearpage
+\noindent\rule{\textwidth}{0.4pt}
 \textbf{Problem 69}
-
-Given:
-
-\[
-J=3,\quad D=0.7,\quad K=4
-\]
-
-find the transfer function and identify the damping ratio.
+Find the transfer function and identify the damping ratio.
 
 \begin{center}
 \begin{tikzpicture}[scale=1.2, thick]
@@ -5660,14 +6144,14 @@ find the transfer function and identify the damping ratio.
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\bigskip
-\textbf{Given:} J = 3, D = 0.7, K = 4
 
-\bigskip
-\textbf{Required:} transfer function and damping ratio
+\noindent\textbf{Given:} As per diagram
 
-\bigskip
-\textbf{Solution:}
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 \bigskip
 The standard form of the transfer function is:
@@ -5699,9 +6183,10 @@ The damping ratio is:
 
 
 \clearpage
+\noindent\rule{\textwidth}{0.4pt}
 \textbf{Problem 70}
 
-Determine $\theta_{ss}$ for a unit step torque input in Problem 7.
+Determine $\theta_{ss}$ for a unit step torque input.
 
 \begin{center}
 \begin{tikzpicture}[scale=1.2, thick]
@@ -5745,14 +6230,14 @@ Determine $\theta_{ss}$ for a unit step torque input in Problem 7.
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\vspace{2cm}
-\textbf{Given:} Refer to problem 7
 
-\bigskip
-\textbf{Required:} $\theta_{ss}$
+\noindent\textbf{Given:} As per diagram
 
-\bigskip
-\textbf{Solution:}
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 \bigskip
 For a step input, steady-state displacement is:
@@ -5773,6 +6258,7 @@ From Problem 7, \( K = 4 \):
 \]
 
 \clearpage
+\noindent\rule{\textwidth}{0.4pt}
 \textbf{Problem 71}
 
 For a system with $J=2$, $K=8$, find $\omega_n$.
@@ -5808,35 +6294,44 @@ For a system with $J=2$, $K=8$, find $\omega_n$.
 \end{tikzpicture}
 \end{center}
 
-
 \noindent\rule{\textwidth}{0.4pt}
 
-\bigskip
-\textbf{Given:} $J=2$, $K=8$
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 \bigskip
-\textbf{Required:} $\omega_n$
-
-\bigskip
-\textbf{Solution:}
-
-Natural frequency is given by:
+The natural frequency in radians per second is given by:
 \[
 \omega_n = \sqrt{\frac{K}{J}}
 \]
 
-Substitute values:
+\bigskip
+Substituting the known values:
 \[
-\omega_n = \sqrt{\frac{8}{2}} = \sqrt{4} = 2
+\omega_n = \sqrt{\frac{8}{2}} = \sqrt{4}
 \]
 
+\[
+\omega_n = 2\,\text{rad/s}
+\]
+
+\bigskip
+So, the system will oscillate naturally at 2 radians per second when displaced from its equilibrium position and released, assuming no damping is present.
+
+\bigskip
 \textbf{Answer:}
 \[
-\boxed{\omega_n = 2}
+\boxed{\omega_n = 2\,\text{rad/s}}
 \]
 
 
 \clearpage
+\noindent\rule{\textwidth}{0.4pt}
 \textbf{Problem 72}
 
 A shaft connects two disks as shown:
@@ -5903,16 +6398,14 @@ with $J_1=1$, $J_2=2$, $K=5$. Find $G(s)=\frac{\Theta_2(s)}{T(s)}$.
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\vspace{2cm}
-\textbf{Given:} As per drawing
 
-$J_1=1$, $J_2=2$, $K=5$
+\noindent\textbf{Given:} As per diagram
 
-\bigskip
-\textbf{Required:} $G(s)=\frac{\Theta_2(s)}{T(s)}$
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
 
-\bigskip
-\textbf{Solution:}
+\vspace{12pt}
+
 
 \bigskip
 The total equivalent moment of inertia is:
@@ -5939,6 +6432,7 @@ G(s) = \frac{1}{Js^2 + K} = \frac{1}{3s^2 + 5}
 \newpage
 
 \clearpage
+\noindent\rule{\textwidth}{0.4pt}
 \textbf{Problem 73}
 
 \bigskip
@@ -5977,14 +6471,13 @@ A rotational system has $J=1.2$ and $K=4.8$. If subjected to an impulse torque, 
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\vspace{2cm}
-\textbf{Given:} $J=1.2$ and $K=4.8$
+\noindent\textbf{Given:} As per diagram
 
-\bigskip
-\textbf{Required:} $\omega_{\max}$
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
 
-\bigskip
-\textbf{Solution:}
+\vspace{12pt}
+
 
 \bigskip
 An impulse torque causes an instantaneous change in angular velocity:
@@ -6013,7 +6506,7 @@ Substitute the given value:
 \newpage
 
 \clearpage
-
+\noindent\rule{\textwidth}{0.4pt}
 \textbf{Problem 74}
 
 Determine the settling time (5\%) for a system with $J=1$, $D=2$.
@@ -6055,14 +6548,14 @@ Determine the settling time (5\%) for a system with $J=1$, $D=2$.
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\vspace{2cm}
-\textbf{Given:} $J=1$, $D=2$, 5\% settling time
 
-\bigskip
-\textbf{Required:} $t_s$
+\noindent\textbf{Given:} As per diagram
 
-\bigskip
-\textbf{Solution:}
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 \bigskip
 Time constant is:
@@ -6090,15 +6583,10 @@ t_s = 4\tau = 4 \cdot 0.5 = 2
 
 
 \clearpage
+\noindent\rule{\textwidth}{0.4pt}
 \textbf{Problem 75}
 
-Given:
-
-\[
-J=0.6,\quad D=0.3,\quad K=1.2
-\]
-
-find the transfer function.
+Find the transfer function.
 
 \begin{center}
 \begin{tikzpicture}[scale=1.2, thick]
@@ -6142,14 +6630,14 @@ find the transfer function.
 
 \noindent\rule{\textwidth}{0.4pt}
 
-\bigskip
-\textbf{Given:} J = 0.6, D = 0.3, K = 1.2
 
-\bigskip
-\textbf{Required:} G(s)
+\noindent\textbf{Given:} As per diagram
 
-\bigskip
-\textbf{Solution:}
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 \bigskip
 The transfer function is:
@@ -6234,9 +6722,14 @@ node[midway,above]{$R(s)$};
 	\end{tikzpicture}\\
 \rule{\textwidth}{1pt}
 
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
 \vspace{12pt}
 
-\textit{\textbf{Solution:}}\\
 \begin{center}
 	\begin{tikzpicture}
 
@@ -6342,28 +6835,30 @@ Used Cascaded rule of $C(s)$ and $H(s)$
 	\vspace{12pt}
 	Used Feedback rule of $C(s)H(s)$ and $G(s)$	
 	\vspace{12pt}
-	\begin{center}
-			\begin{tikzpicture}
-	
-				% System H(s)
-				\node [draw,, 
-				minimum width=2cm, 
-				minimum height=1.2cm,
-				right=1.5cm of sum
-				] (system) {$\dfrac{C(s)H(s)}{1+C(s)H(s)G(s)}$};
-			
-			% Arrows with text label
+
+\begin{center}
+\fbox{%
+\begin{tikzpicture}
+
+  % System H(s)
+  \node [draw, 
+    minimum width=2cm, 
+    minimum height=1.2cm,
+    right=1.5cm of sum
+  ] (system) {$\dfrac{C(s)H(s)}{1+C(s)H(s)G(s)}$};
+
+  % Arrows with text label
+  \draw[-stealth] (system.east) -- ++ (2,0) 
+    node[midway]{} 
+    node[midway,above]{$Y(s)$};
+
+  \draw[stealth-] (system.west) -- ++(-2,0) 
+    node[midway,above]{$R(s)$};
+
+\end{tikzpicture}%
+}
+\end{center}
 		
-			\draw[-stealth] (system.east) -- ++ (2,0) 
-			node[midway](output){}node[midway,above]{$Y(s)$};
-		
-		
-			\draw [stealth-](system.west) -- ++(-2,0) 
-			node[midway,above]{$R(s)$};
-				
-				
-				\end{tikzpicture}
-	\end{center}		
 	
 \clearpage
 
@@ -6500,8 +6995,14 @@ Simplify the block diagram then obtain the close-loop transfer function C(s)/R(s
 	\end{tikzpicture}\\
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 \vspace{12pt}
 First move the branch point between $G_3$ and $G_4$ to the right-hand side of the loop containing
 $G_3,G_4$ and $H_2$. 
@@ -6653,6 +7154,8 @@ Then move the summing point between $G_1$ and $G_2$ to the left-hand side of the
 	\end{tikzpicture}\\
 
 \vspace{12pt}
+\begin{center}
+
 By simplifying each loop, the block diagram can be modified as
 
 \vspace{12pt}	
@@ -6714,27 +7217,26 @@ By simplifying each loop, the block diagram can be modified as
 Further simplification results in
 \vspace{12pt}
 
+\begin{center}
+\fbox{%
 \begin{tikzpicture}
 	% G_1
 	\node [draw,
 	minimum width=1cm,
 	minimum height=1cm,
 	]  (controller) {$\dfrac{G_1G_2G_3G_4}{1+G_1G_2H_1+G_3G_4H_2-G_2G_3H_3+G_1G_2G_3G_4H_1H_2}$};
+	
 	% Arrows with text label
 	\draw[stealth-] (controller.west) -- ++(-2,0) 
 	node[midway,above]{$R(s)$};
 	\draw[-stealth] (controller.east) -- ++ (2,0) 
-		node[midway](outputt){}node[midway,above]{$C(s)$};	
-\end{tikzpicture}
-
-\vspace{50pt}
-The closed-loop transfer function $C(s)/R(s)$ is obtained as
-\vspace{12pt}
-
-\begin{center}
-	$\dfrac{C(s)}{R(s)} = \dfrac{G_1G_2G_3G_4}{1+G_1G_2H_1+G_3G_4H_2-G_2G_3H_3+G_1G_2G_3G_4H_1H_2}$
+	node[midway](outputt){}node[midway,above]{$C(s)$};	
+\end{tikzpicture}%
+}
+\end{center}
 
 \end{center}
+
 \clearpage	
 
 \rule{\textwidth}{1pt}
@@ -6823,8 +7325,14 @@ Reduce the given block diagram to canonical form. \\
 		
 	\end{tikzpicture}\\
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+\begin{center}
 \vspace{12pt}
 Used Cascaded rule of $K$ and $\dfrac{1}{s+1}$ \\
 
@@ -6955,7 +7463,13 @@ Used Feedback rule of $\dfrac{1k}{s+1}$ and $s$
 		\end{tikzpicture}\\
 	\end{center}
 
+	\vspace{12pt}
 
+
+\boxed{ \dfrac{C(s)}{R(s)} = \dfrac{K}{s^2 + (1 + K)s + (0.1K + 1)} }
+
+
+\end{center}
 \clearpage
 
 \rule{\textwidth}{1pt}
@@ -7074,8 +7588,14 @@ Simplify the block diagram. \\
 
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 By moving the summing point of the negative feedback loop containing $H_2$ outside the positive feedback loop containing $H_1$,we obtain figure
 
@@ -7322,29 +7842,31 @@ By moving the summing point of the negative feedback loop containing $H_2$ outsi
 	 
 		Finally,eliminating the feedback loop results in
 	
-		\vspace{12pt}
+\vspace{12pt}
+
 \begin{center}
-		\begin{tikzpicture}
+\fbox{%
+\begin{tikzpicture}
 
-			% G_1
-			\node [draw,
-			minimum width=1cm,
-			minimum height=1cm,
-			right=1cm of summ
-			]   (controller) {$\dfrac{G_1G_2G_3}{1-G_1G_2H_1+G_2G_3H_2+G_1G_2G_3}$};			
-		
-		
-			% Arrows with text label
-			\draw[stealth-] (controller.west) -- ++(-2,0) 
-			node[midway,above]{$R(s)$};
+  % G_1
+  \node [draw,
+    minimum width=1cm,
+    minimum height=1cm,
+    right=1cm of summ
+  ] (controller) {$\dfrac{G_1G_2G_3}{1-G_1G_2H_1+G_2G_3H_2+G_1G_2G_3}$};			
 
-		
-		\draw[-stealth] (controller.east) -- ++ (2,0) 
-			node[midway](output){}node[at end,above]{$C(s)$};
-		
-			
-			\end{tikzpicture}\\	
-		\end{center}	
+  % Arrows with text label
+  \draw[stealth-] (controller.west) -- ++(-2,0) 
+    node[midway,above]{$R(s)$};
+
+  \draw[-stealth] (controller.east) -- ++ (2,0) 
+    node[midway](output){} 
+    node[at end,above]{$C(s)$};
+
+\end{tikzpicture}%
+}
+\end{center}
+
 
 \clearpage
 
@@ -7475,9 +7997,15 @@ Reduce the Block Diagram. \\
 	\end{tikzpicture}\\
 \end{center}
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
-First, the three summing junctions can be collapsed into a single summing junction.
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
+Look at three summing junctions.
 \vspace{12pt}
 
 \begin{center}
@@ -7575,8 +8103,7 @@ First, the three summing junctions can be collapsed into a single summing juncti
 	\end{center}
 
 	\vspace{12pt}	
-	Second,recognize that the three feedback functions, $H_1,H_2$ and $H_3$ are connected in parallel.They are fed from a common signal source
-	and their outputs are summed.Also recognize that $G_2$ and $G_3$ are connected in cascade.
+	The the three feedback functions, $H_1,H_2$ and $H_3$ are connected in parallel
 	\vspace{12pt}
 	
 	\begin{center}
@@ -7638,28 +8165,30 @@ First, the three summing junctions can be collapsed into a single summing juncti
 		\end{center}
 
 		\vspace{50pt}	
-		Finally, the feedback system is reduced and multiplied by $G_1$ to yield the equivalent transfer function shown in figure
-		\vspace{12pt}
+		The transfer function shown in figure is:
+\vspace{12pt}
 
-		\begin{center}
-		\begin{tikzpicture}
-			% G_2
-			\node [draw,
-			minimum width=1cm,
-			minimum height=1cm,
-			right=1cm of sum
-			]  (controllerr) {$\dfrac{G_3G_2G_1}{1+G_3G_2H_1-H_2+H_3}$};
-		
-		
-			% Arrows with text label
-			\draw[stealth-] (controllerr.west) -- ++(-1,0) 
-			node[midway,above]{$R(s)$};
-		
-			\draw[-stealth] (controllerr.east) -- ++ (2,0) 
-					node[midway](output){}node[at end,above]{$C(s)$};	
-				
-			\end{tikzpicture}\\
-		\end{center}
+\begin{center}
+\fbox{%
+\begin{tikzpicture}
+  % G_2
+  \node [draw,
+    minimum width=1cm,
+    minimum height=1cm,
+    right=1cm of sum
+  ] (controllerr) {$\dfrac{G_3G_2G_1}{1+G_3G_2H_1 - H_2 + H_3}$};
+
+  % Arrows with text label
+  \draw[stealth-] (controllerr.west) -- ++(-1,0) 
+    node[midway,above]{$R(s)$};
+
+  \draw[-stealth] (controllerr.east) -- ++(2,0) 
+    node[midway](output){} 
+    node[at end,above]{$C(s)$};
+\end{tikzpicture}%
+}
+\end{center}
+
 
 \clearpage
 
@@ -7728,32 +8257,90 @@ Find the transfer function of the signal flow graph below \\
 \end{tikzpicture}
 \end{center}
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
 
-Forward Path:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Mason's Rule \\                               
+\begin{center}
+\vspace{6pt}
 
-$P_1=G_1G_2G_3G_4G_5$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{\sum T_k\Delta_k}{\Delta}$ \\    
+\noindent \textbf{Forward Path:} \\
+$P_1 = G_1G_2G_3G_4G_5$
 
-Loop Gain:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\Delta=1-(G_2H_1+G_4H_2+G_7H_4+G_2G_3G_4G_5G_6G_7G_8)$\\
-$L_1=G_2H_1$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$+(G_2G_4H_1H_2+G_2G_7H_1H_4+G_4G_7H_2H_4)$\\
-$L_2=G_4H_2$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$-(G_2G_4G_7H_1H_2H_4)$\\
-$L_3=G_7H_4$\\
-$L_4=G_2G_3G_4G_5G_6G_7G_7$~~~~~~~~~~~~~~~~~~~~~~~$\Delta_1=1-G_7H_4$\\
+\vspace{6pt}
 
-2 Non-touching Loops:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{G_1G_2G_3G_4G_5(1-G_7H_4)}{\Delta}$\\
+\noindent \textbf{Mason's Gain Formula:} \\
+$\dfrac{C}{R} = \dfrac{\sum T_k \Delta_k}{\Delta}$
 
-$L_1=(G_2H_1)(G_4H_2)$~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{G_1G_2G_3G_4G_5-G_1G_2G_3G_4G_5G_7H_4}{1-G_2H_1-G_4H_2-G_7H_4-G_2G_3G_4G_5G_6G_7G_8+}$\\
-$L_2=(G_2H_1)(G_7H_4)$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$G_2G_4H_1H_2+G_2G_7H_1H_4+G_4G_7H_2H_4$\\
-$L_3=(G_4H_2)(G_7H_4)$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$-G_2G_4G_7H_1H_2H_4$\\
+\vspace{6pt}
 
-3 Non-touching Loops:
+\noindent \textbf{Loop Gains:}
+\begin{align*}
+L_1 &= G_2H_1 \\
+L_2 &= G_4H_2 \\
+L_3 &= G_7H_4 \\
+L_4 &= G_2G_3G_4G_5G_6G_7G_8
+\end{align*}
 
-$L_1=(G_2H_1)(G_4H_2)(G_7H_4)$\\
+\vspace{6pt}
 
-4 Non-touching Loops:\\
+\noindent \textbf{Determinant ($\Delta$):}
+\[
+\begin{aligned}
+\Delta =\; &1 
+- \left(G_2H_1 + G_4H_2 + G_7H_4 + G_2G_3G_4G_5G_6G_7G_8\right) \\
+&+ \left(G_2G_4H_1H_2 + G_2G_7H_1H_4 + G_4G_7H_2H_4\right) \\
+&- G_2G_4G_7H_1H_2H_4
+\end{aligned}
+\]
 
-$N/A$
+
+\vspace{6pt}
+
+\noindent \textbf{Non-Touching Loop Combinations:}
+\begin{align*}
+\text{2 Non-Touching: } & (G_2H_1)(G_4H_2),\quad (G_2H_1)(G_7H_4),\quad (G_4H_2)(G_7H_4) \\
+\text{3 Non-Touching: } & (G_2H_1)(G_4H_2)(G_7H_4) \\
+\text{4 Non-Touching: } & \text{N/A}
+\end{align*}
+
+\vspace{6pt}
+
+\noindent \textbf{Co-factor ($\Delta_1$) for Path $P_1$:}
+\[
+\Delta_1 = 1 - G_7H_4
+\]
+
+\vspace{6pt}
+
+\noindent \textbf{Transfer Function:}
+\[
+\frac{C}{R} = \frac{G_1G_2G_3G_4G_5(1 - G_7H_4)}{\Delta}
+\]
+
+\vspace{6pt}
+
+\noindent
+\fbox{%
+\parbox{\textwidth}{
+\[
+\frac{C}{R} =
+\frac{
+G_1G_2G_3G_4G_5 - G_1G_2G_3G_4G_5G_7H_4
+}{
+\begin{aligned}
+&1 - G_2H_1 - G_4H_2 - G_7H_4 - G_2G_3G_4G_5G_6G_7G_8 \\
+&+ G_2G_4H_1H_2 + G_2G_7H_1H_4 + G_4G_7H_2H_4 \\
+&- G_2G_4G_7H_1H_2H_4
+\end{aligned}
+}
+\]
+}
+}
+
+\end{center}
 
 \clearpage
 \rule{\textwidth}{1pt}
@@ -7816,22 +8403,43 @@ For the system shown,obtain the closed loop transfer function \\
 \end{tikzpicture}
 \end{center}
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+\begin{center}
+\vspace{12pt}
 
-Forward Path:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Mason's Rule \\                               
+\noindent\textbf{Forward Paths:} \\
+\hspace*{1em} \( P_1 = G_1G_2G_3 \) \\
+\hspace*{1em} \( P_2 = G_4 \) \\[6pt]
 
-$P_1=G_1G_2G_3$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{\sum T_k\Delta_k}{\Delta}$ \\   
-$P_2=G_4$ \\
+\noindent\textbf{Mason's Rule:} \\
+\hspace*{1em} \( \dfrac{C}{R} = \dfrac{\sum T_k\Delta_k}{\Delta} \) \\[6pt]
 
-Loop Gain:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\Delta=1-(-G_2H_1+G_1G_2H_1-G_2G_3H_2)$\\
-$L_1=-G_2H_1$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\Delta_1=1~~~~~~~\Delta_2=1$\\
-$L_2=G_1G_2H_1$\\
-$L_3=-G_2G_3H_2$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{G_1G_2G_3(1)+G_4(1)}{1+G_2H_1-G_1G_2H_1+G_2G_3H_2}$\\
+\noindent\textbf{Loop Gains:} \\
+\hspace*{1em} \( L_1 = -G_2H_1 \) \\
+\hspace*{1em} \( L_2 = G_1G_2H_1 \) \\
+\hspace*{1em} \( L_3 = -G_2G_3H_2 \) \\[6pt]
 
-2 Non-touching Loops:\\
+\noindent\textbf{Determinant:} \\
+\hspace*{1em} \( \Delta = 1 - (L_1 + L_2 + L_3) = 1 + G_2H_1 - G_1G_2H_1 + G_2G_3H_2 \) \\[6pt]
 
-$N/A$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{G_1G_2G_3+G_4}{1+G_2H_1-G_1G_2H_1+G_2G_3H_2}$\\
+\noindent\textbf{Cofactors:} \\
+\hspace*{1em} \( \Delta_1 = 1 \), for \( P_1 \) \\
+\hspace*{1em} \( \Delta_2 = 1 \), for \( P_2 \) \\[6pt]
+
+\noindent\textbf{2 Non-touching Loops:} \\
+\hspace*{1em} N/A \\[6pt]
+
+\noindent\textbf{Final Transfer Function:}
+\[
+\boxed{
+\dfrac{C}{R} = \dfrac{G_1G_2G_3 + G_4}{1 + G_2H_1 - G_1G_2H_1 + G_2G_3H_2}
+}
+\]
+\end{center}
 
 \clearpage
 \rule{\textwidth}{1pt}
@@ -7888,22 +8496,46 @@ Find the transfer function of the signal flow graph below \\
 \end{tikzpicture}
 \end{center}
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\begin{center}
 
-Forward Path:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Mason's Rule \\                               
+\noindent\textit{\textbf{Solution:}}
 
-$P_1=G_1G_2$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{\sum T_k\Delta_k}{\Delta}$ \\   
-$P_2=G_1G_3$ \\
-
-Loop Gain:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\Delta=1-(-G_1G_3H_1H_2-G_1G_2H_1H_2)$\\
-$L_1=-G_1G_3H_1H_2$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\Delta_1=1~~~~~~~\Delta_2=1$\\
-$L_2=-G_1G_2H_1H_2$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{G_1G_2(1)+G_1G_3(1)}{1+G_1G_3H_1H_2+G_1G_2H_1H_2}$\\
+\vspace{12pt}
 
 
-2 Non-touching Loops:
+\noindent\textbf{Forward Paths:} \\
+\hspace*{1em} \( P_1 = G_1G_2 \) \\
+\hspace*{1em} \( P_2 = G_1G_3 \) \\[6pt]
 
-$N/A$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{G_1G_2+G_1G_3}{1+G_1G_3H_1H_2+G_1G_2H_1H_2}$\\
+\noindent\textbf{Mason's Rule:} \\
+\hspace*{1em} \( \dfrac{C}{R} = \dfrac{\sum T_k \Delta_k}{\Delta} \) \\[6pt]
+
+\noindent\textbf{Loop Gains:} \\
+\hspace*{1em} \( L_1 = -G_1G_3H_1H_2 \) \\
+\hspace*{1em} \( L_2 = -G_1G_2H_1H_2 \) \\[6pt]
+
+\noindent\textbf{Determinant:} \\
+\hspace*{1em} \( \Delta = 1 - (L_1 + L_2) = 1 + G_1G_3H_1H_2 + G_1G_2H_1H_2 \) \\[6pt]
+
+\noindent\textbf{Cofactors:} \\
+\hspace*{1em} \( \Delta_1 = 1 \), for \( P_1 \) \\
+\hspace*{1em} \( \Delta_2 = 1 \), for \( P_2 \) \\[6pt]
+
+\noindent\textbf{2 Non-touching Loops:} \\
+\hspace*{1em} N/A \\[6pt]
+
+\noindent\textbf{Final Transfer Function:}
+\[
+\boxed{
+\dfrac{C}{R} = \dfrac{G_1G_2 + G_1G_3}{1 + G_1G_3H_1H_2 + G_1G_2H_1H_2}
+}
+\]
+
+\end{center}
 
 \clearpage
 \rule{\textwidth}{1pt}
@@ -7954,22 +8586,42 @@ Find the transfer function of the signal flow graph below \\
 	\end{tikzpicture}
 	\end{center}
 	\rule{\textwidth}{1pt}
-	\vspace{12pt}
-	\textit{\textbf{Solution:}}\\
-	
-Forward Path:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Mason's Rule \\                               
 
-$P_1=G_1G_2G_3G_4$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{\sum T_k\Delta_k}{\Delta}$ \\   
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+\begin{center}
+\vspace{12pt}
 
 
-Loop Gain:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\Delta=1-(-G_2G_3G_4-G_3G_4-G_4)$\\
-$L_1=-G_2G_3G_4$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\Delta_1=1$\\
-$L_2=-G_3G_4$\\
-$L_3=-G_4$\\
+\noindent\textbf{Forward Path:} \\
+\hspace*{1em} \( P_1 = G_1G_2G_3G_4 \) \\[6pt]
 
-2 Non-touching Loops:~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{G_1G_2G_3G_4}{1+G_2G_3G_4+G_3G_4+G_4}$\\
+\noindent\textbf{Mason's Rule:} \\
+\hspace*{1em} \( \dfrac{C}{R} = \dfrac{\sum T_k \Delta_k}{\Delta} \) \\[6pt]
 
-$N/A$
+\noindent\textbf{Loop Gains:} \\
+\hspace*{1em} \( L_1 = -G_2G_3G_4 \) \\
+\hspace*{1em} \( L_2 = -G_3G_4 \) \\
+\hspace*{1em} \( L_3 = -G_4 \) \\[6pt]
+
+\noindent\textbf{Determinant:} \\
+\hspace*{1em} \( \Delta = 1 - (L_1 + L_2 + L_3) = 1 + G_2G_3G_4 + G_3G_4 + G_4 \) \\[6pt]
+
+\noindent\textbf{Cofactors:} \\
+\hspace*{1em} \( \Delta_1 = 1 \) \\[6pt]
+
+\noindent\textbf{2 Non-touching Loops:} \\
+\hspace*{1em} N/A \\[6pt]
+
+\noindent\textbf{Final Transfer Function:}
+\[
+\boxed{
+\dfrac{C}{R} = \dfrac{G_1G_2G_3G_4}{1 + G_2G_3G_4 + G_3G_4 + G_4}
+}
+\]
+\end{center}
 
 \clearpage
 \rule{\textwidth}{1pt}
@@ -8123,8 +8775,15 @@ Find the transfer function of the system shown by a block diagram \\
 
 	\end{tikzpicture}\\
 	\rule{\textwidth}{1pt}
-	\vspace{12pt}
-	\textit{\textbf{Solution:}}\\
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\begin{center}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 
 Converting into SFG
 
@@ -8182,19 +8841,43 @@ Converting into SFG
 
 	\end{tikzpicture}
 \end{center}
-Forward Path:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Mason's Rule \\                            
-$P_1=G_1G_2G_3G_6$\\   
-$P_2=G_1G_2G_4G_6$ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{\sum T_k\Delta_k}{\Delta}$ \\
-$P_3=G_1G_2G_5G_6$ \\
+\noindent\textit{\textbf{Solution:}}\\[6pt]
 
-Loop Gain:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\Delta=1-(-G_1H_1-G_1G_2G_3H_2-G_1G_2G_4H_2-G_1G_2G_5H_2)$\\
-$L_1=-G_1H_1$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\Delta_1=1~~~~~~~\Delta_2=1~~~~~~~\Delta_3=1$\\
-$L_2=-G_1G_2G_3H_2$\\
-$L_3=-G_1G_2G_4H_2$\\
-$L_4=-G_1G_2G_5H_2$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$\dfrac{C}{R}=\dfrac{G_1G_2G_3G_6+G_1G_2G_4G_6+G_1G_2G_5G_6}{1+G_1H_1+G_1G_2G_3H_2+G_1G_2G_4H_2+G_1G_2G_5H_2}$\\
-2 Non-touching Loops:
+\noindent\textbf{Forward Paths:} \\
+\hspace*{1em} \( P_1 = G_1G_2G_3G_6 \) \\
+\hspace*{1em} \( P_2 = G_1G_2G_4G_6 \) \\
+\hspace*{1em} \( P_3 = G_1G_2G_5G_6 \) \\[6pt]
 
-$N/A$\\
+\noindent\textbf{Mason's Rule:} \\
+\hspace*{1em} \( \dfrac{C}{R} = \dfrac{\sum T_k \Delta_k}{\Delta} \) \\[6pt]
+
+\noindent\textbf{Loop Gains:} \\
+\hspace*{1em} \( L_1 = -G_1H_1 \) \\
+\hspace*{1em} \( L_2 = -G_1G_2G_3H_2 \) \\
+\hspace*{1em} \( L_3 = -G_1G_2G_4H_2 \) \\
+\hspace*{1em} \( L_4 = -G_1G_2G_5H_2 \) \\[6pt]
+
+\noindent\textbf{Determinant:} \\
+\hspace*{1em} 
+\[
+\Delta = 1 - (L_1 + L_2 + L_3 + L_4) = 1 + G_1H_1 + G_1G_2G_3H_2 + G_1G_2G_4H_2 + G_1G_2G_5H_2
+\] \\
+
+\noindent\textbf{Cofactors:} \\
+\hspace*{1em} \( \Delta_1 = 1 \quad \Delta_2 = 1 \quad \Delta_3 = 1 \) \\[6pt]
+
+\noindent\textbf{2 Non-touching Loops:} \\
+\hspace*{1em} N/A \\[6pt]
+
+\noindent\textbf{Final Transfer Function:}
+\[
+\boxed{
+\dfrac{C}{R} = \dfrac{G_1G_2G_3G_6 + G_1G_2G_4G_6 + G_1G_2G_5G_6}
+{1 + G_1H_1 + G_1G_2G_3H_2 + G_1G_2G_4H_2 + G_1G_2G_5H_2}
+}
+\]
+
+\end{center}
 
 \clearpage
 
@@ -8327,8 +9010,14 @@ node[midway,above]{$ $};
 \end{tikzpicture}\\
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1. Identify the longest forward path, assign all terminals, summing points, and nodes as separate points.\\
 \begin{center}
 	\begin{tikzpicture}
@@ -8493,6 +9182,7 @@ Step 1. Identify the longest forward path, assign all terminals, summing points,
 		
 	\end{tikzpicture}\\
 \end{center}
+
 Step 2. Generate the signal flow graph.\\
 \begin{center}
 	\begin{tikzpicture}
@@ -8556,6 +9246,7 @@ Step 2. Generate the signal flow graph.\\
 		\node at (9,-0.3) {\textbf{G4}};
 	\end{tikzpicture}
 \end{center}
+
 Step 3. Identify forward path and all loops\\
 \begin{center}
 	\begin{tikzpicture}
@@ -8769,8 +9460,14 @@ Solve the equivalent transfer function using Mason’s Gain Formula:\\
 \end{tikzpicture}\\	
 
 
-\rule{\textwidth}{1pt}
-\textit{\textbf{Solution:}}\\
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1. Identify the longest forward path, assign all terminals, summing points, and nodes as separate
 points\\
 \begin{center}
@@ -9262,9 +9959,14 @@ node[midway](space){}node[midway,above]{$ $};
 \end{tikzpicture}\\
 \rule{\textwidth}{1pt}
 
+
+\noindent\textbf{Given:} As per diagram
+
+\vspace{12pt}
+\noindent\textit{\textbf{Solution:}}
+
 \vspace{12pt}
 
-\textit{\textbf{Solution:}}\\
 Step 1. Identify the longest forward path, assign all terminals, summing points, and nodes as separate
 points.\\
 \begin{center}
@@ -9767,8 +10469,14 @@ node[midway](spacee){}node[midway,above]{$ $};
 	\end{tikzpicture}\\
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1. Identify the longest forward path, assign all terminals, summing points, and nodes as separate
 points.\\
 \begin{center}
@@ -10278,8 +10986,14 @@ node[midway,above]{$ $};
 
 \end{tikzpicture}\\
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1. Identify the longest forward path, assign all terminals, summing points, and nodes as separate
 points\\
 \begin{center}
@@ -10624,12 +11338,6 @@ Step 4. Identify all loops\\
 		\node at (11,-0.3) {\textbf{G5}};
 		\node at (13,-0.3) {\textbf{G5}};
 
-		\draw[violet, dashed, line width=1pt] (1.7,0) -- (3,0);
-			\draw[violet, dashed, line width=1pt] (3,0) -- (8.5,0);
-			\draw[violet, dashed,<-, line width=1pt, bend right=45,xshift=0cm] (1.5,0) to (5,-3.5);
-			\draw[violet, dashed, line width=1pt, bend left=45] (8.5,0) to (5,-3.5);
-			\node[violet] at (5,-3.8) {L1};
-
 	\end{tikzpicture}\\[15pt]
 
 	$L_1=G_2G_3H_1$\\[15pt]
@@ -10771,8 +11479,14 @@ node[midway](output){}node[midway,above]{$ $};
 \end{tikzpicture}\\
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1. Identify the longest forward path, assign all terminals, summing points, and nodes as separate
 points.\\
 \begin{center}
@@ -11258,8 +11972,14 @@ node[midway](spacee){}node[midway,above]{$ $};
 \end{tikzpicture}\\
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1. Identify the longest forward path, assign all terminals, summing points, and nodes as separate 
 points. \\
 \begin{center}
@@ -11798,8 +12518,14 @@ node[midway](spacee){}node[midway,above]{$ $};
 \end{tikzpicture}\\
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1. Identify the longest forward path, assign all terminals, summing points, and nodes as separate 
 points. \\
 \begin{center}
@@ -12276,8 +13002,14 @@ node[midway](spacee){}node[midway,above]{$ $};
 \end{tikzpicture}\\
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1. Identify the longest forward path, assign all terminals, summing points, and nodes as separate
 points
 \begin{center}
@@ -12805,8 +13537,14 @@ node[midway](spacee){}node[midway,above]{$ $};
 \end{tikzpicture}\\
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1. Identify the longest forward path, assign all terminals, summing points, and nodes as separate
 points.\\
 \begin{center}
@@ -13338,8 +14076,14 @@ node[midway](spacee){}node[midway,above]{$ $};
 
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1\\
 \begin{center}
 	\begin{tikzpicture}
@@ -13821,8 +14565,14 @@ node[midway](spacee){}node[midway,above]{$ $};
 
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1\\
 \begin{center}
 	\begin{tikzpicture}
@@ -14272,8 +15022,14 @@ node[midway](linee){}node[midway,above]{$ $};
 \end{tikzpicture}\\
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1\\
 \begin{center}
 	\begin{tikzpicture}
@@ -15057,8 +15813,14 @@ node[midway](linee){}node[midway,above]{$ $};
 \end{tikzpicture}\\
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
 Step 1\\
 \begin{center}
 	\begin{tikzpicture}
@@ -15525,10 +16287,10 @@ Step 4\\
 \end{center}
 Simplify (Final Transfer Function)\\
 \begin{center}
-	$TF=\left(\dfrac{G_1}{1+G_1G_2H_1}\right)\left(\dfrac{G_2G_5+G_3G_4+G_2G_4G_5H_2}{1+G_4H_2}\right)$\\[15pt]
+	$G(s)=\left(\dfrac{G_1}{1+G_1G_2H_1}\right)\left(\dfrac{G_2G_5+G_3G_4+G_2G_4G_5H_2}{1+G_4H_2}\right)$\\[15pt]
 	\begin{tabular}{|c|}
 		\hline \\
-	$TF=\dfrac{G_1G_2G_5+G_1G_3G_4+G_1G_2G_4G_5H_2}{1+G_1G_2H_1+G_4H_2+G_1G_2G_4H_1H_2}$\\[12pt]
+	$G(s)=\dfrac{G_1G_2G_5+G_1G_3G_4+G_1G_2G_4G_5H_2}{1+G_1G_2H_1+G_4H_2+G_1G_2G_4H_1H_2}$\\[12pt]
 	\hline
 	\end{tabular}
 \end{center}
@@ -15653,9 +16415,15 @@ node[midway](line){}node[midway,above]{$ $};
 \end{tikzpicture}\\
 
 \rule{\textwidth}{1pt}
+
+\noindent\textbf{Given:} As per diagram
+
 \vspace{12pt}
-\textit{\textbf{Solution:}}\\
-Step 1\\
+\noindent\textit{\textbf{Solution:}}
+
+\vspace{12pt}
+
+Find parallel and series\\
 \begin{center}
 	\begin{tikzpicture}
 
@@ -15843,7 +16611,6 @@ Simplify\\
 	
 	\end{tikzpicture}\\
 \end{center}
-Step 2\\
 \begin{center}
 	\begin{tikzpicture}
 
@@ -15971,7 +16738,6 @@ Simplify\\
 	
 	\end{tikzpicture}\\
 \end{center}
-Step 3\\
 \begin{center}
 	\begin{tikzpicture}
 
@@ -16060,7 +16826,7 @@ Simplify\\
 
 	\end{tikzpicture}\\
 \end{center}
-Step 4\\
+Then\\
 \begin{center}
 	\begin{tikzpicture}
 
@@ -16093,14 +16859,13 @@ Step 4\\
 
 	\end{tikzpicture}\\
 \end{center}
-Simplify (Final Transfer Function)\\
 \begin{center}
-	$TF=\left(\dfrac{G_1G_3+G_2G_3}{1+G_1G_3H_1+G_2G_3H_1}\right) \left(\dfrac{G_4G_5}{1+G_5H_2}\right)$\\[15pt]
+	$G(s)=\left(\dfrac{G_1G_3+G_2G_3}{1+G_1G_3H_1+G_2G_3H_1}\right) \left(\dfrac{G_4G_5}{1+G_5H_2}\right)$\\[15pt]
 	\begin{tabular}{|c|}
 		\hline \\
-	$TF=\dfrac{G_1G_3G_4G_5+G_2G_3G_4G_5}{1+G_1G_3H_1+G_2G_3H_1+G_5H_2+G_1G_3G_5H_1H_2+G_2G_3G_5H_1H_2}$\\[12pt]
+	$G(s)=\dfrac{G_1G_3G_4G_5+G_2G_3G_4G_5}{1+G_1G_3H_1+G_2G_3H_1+G_5H_2+G_1G_3G_5H_1H_2+G_2G_3G_5H_1H_2}$\\[12pt]
 	\hline
 	\end{tabular}
 \end{center}
-
+%Good 
 \end{document}
